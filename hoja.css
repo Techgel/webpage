@@ -1,0 +1,435 @@
+/* Futuristic styles.css
+   - Uso: aplica las clases en tu HTML (ej: <body class="futuristic-bg">, 
+     <div class="glass-card">, <h1 class="neon-text" data-text="Hola">Hola</h1>, etc.)
+   - Incluye: fondo animado, grid, scanlines, texto neón, glitch, glass card, botones glow,
+     terminal, partículas y utilidades.
+   - Soporte para prefers-reduced-motion: desactiva animaciones complejas.
+*/
+
+/* Variables de tema */
+:root{
+  --bg-1: #071530;           /* deep navy */
+  --bg-2: #09142b;           /* darker */
+  --accent: #00f0ff;         /* cyan accent */
+  --accent-2: #8a00ff;       /* purple accent */
+  --neon: #39ff14;           /* neon green */
+  --glass: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.12);
+  --text: #e6f7ff;
+  --muted: #98a6b3;
+  --grid: rgba(255,255,255,0.04);
+  --scanline: rgba(255,255,255,0.02);
+  --transition: 300ms cubic-bezier(.2,.9,.3,1);
+}
+
+/* Reset básico */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg,var(--bg-1),var(--bg-2));
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+
+/* ======================
+   Fondo futurista compuesto
+   ====================== */
+.futuristic-bg{
+  position:relative;
+  min-height:100vh;
+  background:
+    radial-gradient(1200px 600px at 10% 20%, rgba(58,12,90,0.18), transparent 8%),
+    radial-gradient(800px 400px at 90% 80%, rgba(0,240,255,0.06), transparent 10%),
+    linear-gradient(120deg, rgba(8,14,34,0.9), rgba(6,8,18,0.95));
+  isolation:isolate;
+  overflow:hidden;
+}
+
+/* Partículas sutiles con gradientes repetidos */
+.futuristic-bg::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(255,255,255,0.06) 0 1px, transparent 2px),
+    radial-gradient(circle at 70% 80%, rgba(255,255,255,0.04) 0 1px, transparent 2px);
+  background-size: 300px 300px, 420px 420px;
+  opacity:0.9;
+  mix-blend-mode:screen;
+  animation: particleDrift 18s linear infinite;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* Rejilla futurista */
+.grid-overlay{
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(transparent 24px, rgba(255,255,255,0.02) 25px),
+    linear-gradient(90deg, transparent 24px, rgba(255,255,255,0.02) 25px);
+  background-size: 50px 50px;
+  opacity:0.7;
+  mix-blend-mode:overlay;
+  animation: gridSlide 20s linear infinite;
+  z-index:1;
+  pointer-events:none;
+}
+
+/* Scanlines (barras horizontales que se mueven) */
+.scanlines{
+  position:absolute;
+  inset:0;
+  background-image: repeating-linear-gradient(
+    180deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(255,255,255,0.015) 3px,
+    rgba(255,255,255,0.015) 4px
+  );
+  z-index:2;
+  pointer-events:none;
+  animation: scan 6s linear infinite;
+  mix-blend-mode:soft-light;
+}
+
+/* Holo gradient border util */
+.holo-border{
+  position:relative;
+  border-radius:12px;
+  padding:1px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  isolation:isolate;
+}
+.holo-border::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:11px;
+  padding:2px;
+  background: conic-gradient(from 90deg at 50% 50%, var(--accent), var(--accent-2), #00ffd5, var(--accent));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity:0.9;
+  animation: holoSpin 8s linear infinite;
+  pointer-events:none;
+}
+
+/* Glass card (frosted) */
+.glass-card{
+  position:relative;
+  background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border:1px solid var(--glass-border);
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  border-radius:14px;
+  padding:1.25rem;
+  box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+  z-index:3;
+}
+
+/* Texto neón */
+.neon-text{
+  color:var(--neon);
+  text-shadow:
+    0 0 6px rgba(57,255,20,0.12),
+    0 0 10px rgba(57,255,20,0.06),
+    0 4px 20px rgba(0,0,0,0.6);
+  position:relative;
+  font-weight:700;
+  letter-spacing:0.02em;
+  display:inline-block;
+  z-index:4;
+  animation: neonPulse 3s ease-in-out infinite;
+}
+
+/* Glitch — requiere data-text con mismo texto */
+.glitch{
+  position:relative;
+  color:var(--text);
+  font-weight:800;
+  letter-spacing:0.02em;
+}
+.glitch::before,
+.glitch::after{
+  content:attr(data-text);
+  position:absolute;
+  left:0; top:0;
+  width:100%;
+  overflow:hidden;
+  clip-path:polygon(0 0,100% 0,100% 0,0 0);
+  transform:translateZ(0);
+  opacity:0.85;
+}
+.glitch::before{
+  color:var(--accent);
+  mix-blend-mode:screen;
+  animation: glitchTop 3s linear infinite;
+  text-shadow:-2px 0 var(--accent);
+}
+.glitch::after{
+  color:var(--accent-2);
+  mix-blend-mode:screen;
+  animation: glitchBottom 2.7s linear infinite;
+  text-shadow:2px 0 var(--accent-2);
+}
+
+/* Botón glow */
+.glow-button{
+  --pad: 0.8rem 1.4rem;
+  display:inline-block;
+  border-radius:10px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border:1px solid rgba(255,255,255,0.06);
+  padding:var(--pad);
+  color:var(--text);
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  transition: transform var(--transition), box-shadow var(--transition);
+  box-shadow: 0 6px 30px rgba(0,0,0,0.6);
+}
+.glow-button::after{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background:linear-gradient(90deg, transparent, rgba(0,240,255,0.12), rgba(138,0,255,0.10), transparent);
+  filter:blur(12px);
+  opacity:0;
+  transition:opacity 220ms ease;
+  pointer-events:none;
+}
+.glow-button:hover{
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 14px 50px rgba(0,160,200,0.12);
+}
+.glow-button:hover::after{ opacity:1 }
+
+/* Ripple simple */
+.glow-button:active::before{
+  content:"";
+  position:absolute;
+  left:50%; top:50%;
+  width:10px;height:10px;
+  background: rgba(255,255,255,0.06);
+  transform:translate(-50%,-50%) scale(1);
+  border-radius:50%;
+  animation: ripple 700ms ease-out;
+}
+
+/* Terminal / console card */
+.terminal{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+  background: linear-gradient(180deg, rgba(2,6,23,0.55), rgba(2,6,23,0.45));
+  border-radius:10px;
+  padding:1rem;
+  color: #c8f0ff;
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,0.02);
+  position:relative;
+  overflow:hidden;
+}
+.terminal .caret{
+  display:inline-block;
+  width:8px;
+  height:18px;
+  background: var(--accent);
+  margin-left:6px;
+  vertical-align:middle;
+  animation: blink 1s steps(2,end) infinite;
+}
+
+/* Rotating geometry (hexagon) */
+.rotating-hex{
+  width:120px;
+  height:120px;
+  clip-path: polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0% 50%);
+  background: linear-gradient(135deg, rgba(138,0,255,0.12), rgba(0,240,255,0.08));
+  border:1px solid rgba(255,255,255,0.04);
+  display:grid;
+  place-items:center;
+  animation: rotateFloat 10s linear infinite;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+}
+
+/* Orbiting dots (decorativo) */
+.orbit{
+  position:relative;
+}
+.orbit::before,
+.orbit::after{
+  content:"";
+  position:absolute;
+  width:8px;height:8px;border-radius:50%;
+  background:linear-gradient(45deg,var(--accent),var(--accent-2));
+  top:50%; left:50%;
+  transform-origin: -60px center;
+  animation: orbitA 5s linear infinite;
+  opacity:0.9;
+}
+.orbit::after{
+  transform-origin: -90px center;
+  animation: orbitB 7s linear infinite;
+  background:linear-gradient(45deg,var(--accent-2),#00ffd5);
+}
+
+/* Particle field (subtle) */
+.particle-field{
+  position:relative;
+  isolation:isolate;
+}
+.particle-field::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:
+    radial-gradient(circle at 10% 10%, rgba(255,255,255,0.06) 0 2px, transparent 3px),
+    radial-gradient(circle at 40% 70%, rgba(255,255,255,0.04) 0 2px, transparent 3px),
+    radial-gradient(circle at 80% 30%, rgba(255,255,255,0.03) 0 2px, transparent 3px);
+  mix-blend-mode: screen;
+  animation: particleShift 26s linear infinite;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* Utilities */
+.center{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.card-stack{gap:1rem;display:flex;flex-direction:column}
+
+/* ======================
+   Keyframes
+   ====================== */
+@keyframes particleDrift{
+  0%{ transform:translateY(0) translateX(0) }
+  50%{ transform:translateY(-40px) translateX(30px) }
+  100%{ transform:translateY(0) translateX(0) }
+}
+@keyframes particleShift{
+  0%{ background-position: 0 0, 0 0, 0 0 }
+  50%{ background-position: 200px -100px, -150px 120px, 100px 200px }
+  100%{ background-position: 0 0, 0 0, 0 0 }
+}
+@keyframes gridSlide{
+  from{ background-position:0 0, 0 0 }
+  to{ background-position: 1000px 1000px, -1000px -1000px }
+}
+@keyframes scan{
+  0%{ transform:translateY(-2%) }
+  50%{ transform:translateY(2%) }
+  100%{ transform:translateY(-2%) }
+}
+@keyframes neonPulse{
+  0%{ filter:brightness(0.95); text-shadow:0 0 8px rgba(57,255,20,0.07) }
+  50%{ filter:brightness(1.15); text-shadow:0 0 28px rgba(57,255,20,0.18) }
+  100%{ filter:brightness(0.95); text-shadow:0 0 8px rgba(57,255,20,0.07) }
+}
+@keyframes glitchTop{
+  0%{ clip-path: polygon(0 0,100% 0,100% 5%,0 5%); transform:translate(-.5px,-.5px) }
+  10%{ clip-path: polygon(0 0,100% 0,100% 40%,0 40%); transform:translate(2px,-2px) }
+  20%{ clip-path: polygon(0 0,100% 0,100% 10%,0 10%); transform:translate(-1px,1px) }
+  30%{ clip-path: polygon(0 0,100% 0,100% 55%,0 55%); transform:translate(3px,0) }
+  40%{ clip-path: polygon(0 0,100% 0,100% 8%,0 8%); transform:translate(-.5px,-.5px) }
+  100%{ clip-path: polygon(0 0,100% 0,100% 0,0 0); transform:translate(0,0) }
+}
+@keyframes glitchBottom{
+  0%{ clip-path: polygon(0 90%,100% 90%,100% 100%,0 100%); transform:translate(.5px,.5px) }
+  10%{ clip-path: polygon(0 60%,100% 60%,100% 100%,0 100%); transform:translate(-2px,2px) }
+  20%{ clip-path: polygon(0 80%,100% 80%,100% 100%,0 100%); transform:translate(1px,-1px) }
+  30%{ clip-path: polygon(0 40%,100% 40%,100% 100%,0 100%); transform:translate(-3px,0) }
+  40%{ clip-path: polygon(0 92%,100% 92%,100% 100%,0 100%); transform:translate(.5px,.5px) }
+  100%{ clip-path: polygon(0 100%,100% 100%,100% 100%,0 100%); transform:translate(0,0) }
+}
+@keyframes holoSpin{
+  from{ transform: rotate(0deg) }
+  to{ transform: rotate(360deg) }
+}
+@keyframes rotateFloat{
+  0%{ transform: rotate(0deg) translateY(0) }
+  50%{ transform: rotate(180deg) translateY(-8px) }
+  100%{ transform: rotate(360deg) translateY(0) }
+}
+@keyframes orbitA{
+  0%{ transform: rotate(0deg) translateX(-60px) rotate(0deg) }
+  100%{ transform: rotate(360deg) translateX(-60px) rotate(-360deg) }
+}
+@keyframes orbitB{
+  0%{ transform: rotate(0deg) translateX(-90px) rotate(0deg) }
+  100%{ transform: rotate(360deg) translateX(-90px) rotate(-360deg) }
+}
+@keyframes ripple{
+  0%{ transform:translate(-50%,-50%) scale(0); opacity:0.5 }
+  100%{ transform:translate(-50%,-50%) scale(18); opacity:0 }
+}
+@keyframes blink{
+  0%{ opacity:1 }
+  50%{ opacity:0 }
+  100%{ opacity:1 }
+}
+
+/* Terminal caret */
+@keyframes caret{
+  0%{ opacity:1 }
+  50%{ opacity:0 }
+  100%{ opacity:1 }
+}
+
+/* Reduce motion support */
+@media (prefers-reduced-motion: reduce){
+  .futuristic-bg::before,
+  .grid-overlay,
+  .scanlines,
+  .particle-field::after,
+  .neon-text,
+  .glitch::before,
+  .glitch::after,
+  .holo-border::before,
+  .rotating-hex,
+  .orbit::before,
+  .orbit::after{
+    animation:none !important;
+    transition:none !important;
+  }
+}
+
+/* Responsive tweaks */
+@media (max-width:600px){
+  .rotating-hex{ width:88px;height:88px }
+  .glow-button{ padding:0.6rem 1rem }
+}
+
+/* ======================
+   Ejemplos de combinaciones prácticas (clases utilitarias)
+   ====================== */
+
+/* Un header futurista */
+.header-future{
+  padding:3rem 1.5rem;
+  position:relative;
+  z-index:5;
+}
+
+/* Subtítulos holográficos */
+.holo-heading{
+  font-size:clamp(1rem, 2.5vw, 1.8rem);
+  font-weight:700;
+  letter-spacing:0.04em;
+  color:var(--text);
+  text-shadow: 0 6px 30px rgba(8,14,34,0.8);
+}
+
+/* Microcopy */
+.muted{
+  color:var(--muted);
+  font-size:0.9rem;
+}
+
+/* Fin del archivo */
