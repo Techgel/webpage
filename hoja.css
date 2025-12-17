@@ -1,403 +1,228 @@
-:root{
-  /* Colores (tema por defecto - oscuro) */
-  --bg-1: #071530;
-  --bg-2: #09142b;
-  --accent: #00f0ff;
-  --accent-2: #8a00ff;
-  --neon: #39ff14;
-  --text: #e6f7ff;
-  --muted: #98a6b3;
-  --glass: rgba(255,255,255,0.04);
-  --glass-border: rgba(255,255,255,0.10);
-
-  /* Espaciado y tipografía */
-  --space-xs: 0.4rem;
-  --space-sm: 0.75rem;
-  --space-md: 1.25rem;
-  --space-lg: 2rem;
-  --radius: 12px;
-  --transition: 300ms cubic-bezier(.2,.9,.3,1);
-
-  /* Sombras */
-  --shadow-sm: 0 6px 18px rgba(2,6,23,0.6);
-  --shadow-lg: 0 18px 50px rgba(0,140,200,0.12);
-
-  /* Utilidades para transiciones globales (puedes ajustar) */
-  --bg-transition: background var(--transition), color var(--transition);
+/* ============================
+   VARIABLES BASE (Modo Oscuro por defecto)
+============================ */
+:root {
+    --bg-color: #0f172a;
+    --text-color: #e5e7eb;
+    --card-bg: #1e293b;
+    --border-color: #334155;
+    --accent-color: #38bdf8;
 }
 
-/* ------------------------------
-   Modo claro (clase alternativa)
-   ------------------------------
-   Para activar desde JS puedes:
-   document.documentElement.classList.add('theme-light')
-   o bien cambiar las variables directamente con style.setProperty (ambas funcionan)
-*/
+/* ============================
+   MODO CLARO AZUL CIELO
+============================ */
 .theme-light {
-  --bg-1: #f1f5ff;
-  --bg-2: #e8efff;
-  --accent: #3fc7ff;        /* ligero ajuste para contrastar en claro */
-  --accent-2: #7aa0ff;
-  --neon: #0a8bff;
-  --text: #0b2340;
-  --muted: #4a5568;
-  --glass: rgba(10,20,40,0.03);
-  --glass-border: rgba(0,0,0,0.08);
-  --shadow-sm: 0 6px 18px rgba(8,12,24,0.06);
-  --shadow-lg: 0 18px 50px rgba(8,120,200,0.06);
+    --bg-color: #dbeeff;      /* AZUL CIELO REAL */
+    --text-color: #0b2545;
+    --card-bg: #ffffff;
+    --border-color: #8ecbff;
+    --accent-color: #4fa3ff;
 }
 
-/* ------------------------------
-   RESET / BOX MODEL
-   ------------------------------ */
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-  background: linear-gradient(180deg,var(--bg-1),var(--bg-2));
-  color:var(--text);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  line-height:1.5;
-  overflow-x:hidden;
-
-  /* Transiciones para cambio de tema */
-  transition: var(--bg-transition);
+/* ============================
+   RESET BÁSICO
+============================ */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-/* ------------------------------
-   FONDO FUTURISTA (layout container)
-   ------------------------------ */
-.futuristic-bg{
-  position:relative;
-  min-height:100vh;
-  padding-bottom:4rem;
-  overflow:hidden;
-  isolation:isolate;
-  background:
-    radial-gradient(1200px 600px at 10% 20%, rgba(138,0,255,0.06), transparent 8%),
-    radial-gradient(800px 400px at 90% 80%, rgba(0,240,255,0.04), transparent 10%),
-    linear-gradient(120deg, rgba(8,14,34,0.9), rgba(6,8,18,0.95));
-  transition: background var(--transition), box-shadow var(--transition);
+/* ============================
+   BODY
+============================ */
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Partículas y grid como pseudo-elementos para no tocar HTML */
-.futuristic-bg::before{
-  content:"";
-  position:absolute; inset:0;
-  background-image:
-    radial-gradient(circle at 10% 20%, rgba(255,255,255,0.06) 0 1px, transparent 2px),
-    radial-gradient(circle at 70% 80%, rgba(255,255,255,0.04) 0 1px, transparent 2px);
-  background-size:300px 300px,420px 420px;
-  mix-blend-mode:screen; opacity:0.85; z-index:0; pointer-events:none;
-  animation: particleDrift 18s linear infinite;
-}
-.futuristic-bg::after{
-  content:""; position:absolute; inset:0;
-  background-image:
-    linear-gradient(transparent 24px, rgba(255,255,255,0.02) 25px),
-    linear-gradient(90deg, transparent 24px, rgba(255,255,255,0.02) 25px);
-  background-size:50px 50px;
-  mix-blend-mode:overlay; opacity:0.6; z-index:1; pointer-events:none;
-  animation: gridSlide 20s linear infinite;
+/* ============================
+   HEADER
+============================ */
+header {
+    padding: 2rem;
+    border-bottom: 2px solid var(--border-color);
 }
 
-/* ------------------------------
-   HEADER / NAV
-   ------------------------------ */
-header{
-  position:relative;
-  z-index:5;
-  padding:var(--space-lg) var(--space-md);
-  display:flex; flex-direction:column; gap:0.5rem;
-  align-items:flex-start;
-  transition: color var(--transition), background var(--transition);
-}
-header h1{
-  font-size:clamp(1.6rem, 3.2vw, 2.6rem);
-  color:var(--text);
-  letter-spacing:0.01em;
-  text-shadow: 0 6px 30px rgba(8,14,34,0.8);
-  transition: color var(--transition), text-shadow var(--transition);
-}
-header p{ color:var(--muted); max-width:70ch; margin-top:0.4rem; }
-
-/* NAV estilo simple y responsive */
-nav{ margin-top:0.6rem; width:100%;}
-nav ul{ list-style:none; display:flex; gap:0.6rem; flex-wrap:wrap; align-items:center; padding:0; margin:0;}
-nav a{
-  color:var(--text);
-  text-decoration:none; padding:0.5rem 0.8rem;
-  border-radius:8px;
-  transition: background var(--transition), color var(--transition), transform var(--transition);
-}
-nav a:hover, nav a:focus{
-  background: linear-gradient(90deg,var(--accent),var(--accent-2));
-  color:#001018; transform:translateY(-2px);
-  box-shadow: var(--shadow-lg);
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
 }
 
-/* botón modo claro (estilo mínimo para integrarse) */
-#themeToggle {
-  display:inline-flex;
-  align-items:center;
-  gap:0.6rem;
-  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  color:var(--text);
-  border:1px solid var(--glass-border);
-  padding:0.6rem 0.9rem;
-  border-radius:10px;
-  cursor:pointer;
-  transition: transform var(--transition), box-shadow var(--transition), background var(--transition), color var(--transition);
-}
-#themeToggle:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
-
-/* botón menú móvil (si lo añades) */
-.btn-menu {
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  width:44px;
-  height:44px;
-  border-radius:10px;
-  border:1px solid var(--glass-border);
-  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  color:var(--text);
-  cursor:pointer;
-  transition: transform var(--transition), box-shadow var(--transition);
+header p {
+    max-width: 700px;
+    opacity: 0.9;
 }
 
-/* ------------------------------
-   MAIN / LAYOUT (grid + responsive)
-   ------------------------------ */
-main{
-  position:relative; z-index:3;
-  padding: 1.5rem; margin: 0 auto; max-width:1200px;
-  transition: color var(--transition);
+/* ============================
+   BOTÓN MODO CLARO / OSCURO
+============================ */
+.glow-button {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border: 2px solid var(--accent-color);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-/* Grid layout para secciones con tarjetas */
-.layout-grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap:1.25rem; }
-
-/* Columnas/rows utilitarias */
-.row{ display:flex; flex-wrap:wrap; gap:1rem; }
-.col{ flex:1 1 220px; min-width:220px; }
-
-/* ------------------------------
-   GLASS CARD (componentes) - BOX model, padding, border, shadow
-   ------------------------------ */
-.glass-card{
-  background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-  border:1px solid var(--glass-border);
-  backdrop-filter: blur(8px) saturate(120%);
-  -webkit-backdrop-filter: blur(8px) saturate(120%);
-  border-radius:var(--radius);
-  padding:var(--space-md);
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition), background var(--transition);
-}
-.glass-card:hover{ transform: translateY(-6px); box-shadow: var(--shadow-lg); }
-
-/* Example: H2 with decorative pseudo-element */
-section h2{
-  font-size:1.25rem; margin-bottom:0.75rem; color:var(--text);
-  position:relative; display:inline-block;
-}
-section h2::after{
-  content:""; display:block; height:6px; width:60%; border-radius:4px;
-  background: linear-gradient(90deg,var(--accent),var(--accent-2));
-  position:absolute; left:0; bottom:-0.6rem; opacity:0.9;
-  transform-origin:left center; transition: transform var(--transition);
-}
-section h2:hover::after{ transform:scaleX(1.03); }
-
-/* ------------------------------
-   TIPOGRAFÍA / TEXTOS
-   ------------------------------ */
-.neon-text{
-  color:var(--neon);
-  font-weight:700; text-shadow: 0 0 8px rgba(57,255,20,0.12), 0 0 20px rgba(57,255,20,0.06);
-  display:inline-block; letter-spacing:0.01em;
-  transition: filter var(--transition);
-}
-.neon-text:hover{ filter:brightness(1.12); }
-
-/* Glitch - requires data-text attribute on element */
-.glitch{ position:relative; font-weight:800; }
-.glitch::before, .glitch::after{
-  content:attr(data-text); position:absolute; left:0; top:0; width:100%;
-  clip-path:polygon(0 0,100% 0,100% 0,0 0); opacity:0.85; pointer-events:none;
-}
-.glitch::before{ color:var(--accent); mix-blend-mode:screen; text-shadow:-2px 0 var(--accent); animation:glitchTop 3s linear infinite; }
-.glitch::after{ color:var(--accent-2); mix-blend-mode:screen; text-shadow:2px 0 var(--accent-2); animation:glitchBottom 2.7s linear infinite; }
-
-/* ------------------------------
-   LISTAS / TABLAS / ACCESSIBILIDAD
-   ------------------------------ */
-ul, ol{ margin-left:1.2rem; margin-top:0.6rem; margin-bottom:0.6rem; color:var(--text); }
-dl dt{ font-weight:700; margin-top:0.6rem; }
-table{
-  width:100%; border-collapse:collapse; margin:0.8rem 0;
-  background: rgba(255,255,255,0.02); border-radius:8px; overflow:hidden;
-}
-.table th, .table td, table th, table td{
-  padding:0.6rem; border:1px solid rgba(255,255,255,0.04); text-align:left; vertical-align:middle;
-}
-table caption{ caption-side:top; padding:0.5rem 0.75rem; font-weight:700; color:var(--text); }
-
-/* ------------------------------
-   ENLACES (atributos) — ejemplos de selectores de atributos
-   ------------------------------ */
-a{ color:var(--accent); text-decoration:underline; }
-a[target="_blank"]::after{ content:" ↗"; font-size:0.85em; color:var(--muted); margin-left:0.15rem; }
-a[href^="https"]{ text-decoration:underline dotted var(--accent); }
-a[href$=".pdf"]{ color:var(--accent-2); }
-a[href*="youtube"]{ color:#FF0000; }
-
-/* ------------------------------
-   FORMULARIOS / INPUTS (pseudo-clases :focus, :invalid)
-   ------------------------------ */
-input[type="text"], input[type="email"], input[type="password"], select, textarea{
-  width:100%; padding:0.6rem; border-radius:8px; border:1px solid rgba(255,255,255,0.06);
-  background: rgba(255,255,255,0.015); color:var(--text);
-  transition: box-shadow var(--transition), border-color var(--transition), background var(--transition), color var(--transition);
-}
-input:focus, select:focus, textarea:focus{
-  outline:none; border-color:var(--accent); box-shadow:0 6px 24px rgba(0,240,255,0.06);
-}
-input:invalid{ border-color: #ff6b6b; box-shadow:0 4px 20px rgba(255,99,71,0.06); }
-
-/* Fieldset / legend */
-fieldset{ border:1px solid rgba(255,255,255,0.03); padding:0.8rem; border-radius:10px; margin-bottom:1rem; }
-legend{ font-weight:700; padding:0 0.5rem; }
-
-/* Buttons (pseudo-classes and pseudo-element) */
-button, .glow-button{
-  appearance:none; -webkit-appearance:none;
-  border-radius:10px; padding:0.7rem 1rem; cursor:pointer; border:1px solid rgba(255,255,255,0.06);
-  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  color:var(--text); transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
-}
-button:hover{ transform:translateY(-3px); box-shadow:var(--shadow-lg); }
-button:active{ transform:translateY(0); }
-
-/* Button pseudo-element */
-button::after{ content:""; display:inline-block; margin-left:0.5rem; opacity:0.6; transform:translateY(-1px); }
-
-/* ------------------------------
-   IFRAME / CANVAS / EMBEDS (contenido incrustado)
-   ------------------------------ */
-iframe, canvas{ border-radius:8px; border:1px solid rgba(255,255,255,0.04); background:rgba(0,0,0,0.25); width:100%; max-width:100%; transition: background var(--transition), border-color var(--transition); }
-
-/* ------------------------------
-   UTILIDADES: espacio, display, opacity, float, posicion
-   ------------------------------ */
-/* Display utilities */
-.d-block{ display:block; }
-.d-inline{ display:inline-block; }
-.d-flex{ display:flex; }
-.d-grid{ display:grid; }
-
-/* Padding / margin utilities */
-.p-sm{ padding:var(--space-sm) !important; }
-.p-md{ padding:var(--space-md) !important; }
-.m-sm{ margin:var(--space-sm) !important; }
-.m-md{ margin:var(--space-md) !important; }
-
-/* Opacity utilities */
-.u-opacity-90{ opacity:0.9 }
-.u-opacity-75{ opacity:0.75 }
-.u-opacity-50{ opacity:0.5 }
-
-/* Float utilities */
-.float-left{ float:left }
-.float-right{ float:right }
-
-/* Position utilities */
-.position-relative{ position:relative }
-.position-absolute{ position:absolute }
-.top-0{ top:0 }
-.left-0{ left:0 }
-.right-0{ right:0 }
-.bottom-0{ bottom:0 }
-
-/* Box shadows */
-.shadow{ box-shadow: var(--shadow-sm) }
-.shadow-lg{ box-shadow: var(--shadow-lg) }
-
-/* Text utilities */
-.text-muted{ color:var(--muted) }
-.text-center{ text-align:center }
-
-/* ------------------------------
-   GRADIENTES (clases de ejemplo)
-   ------------------------------ */
-.gradient-bg{
-  background: linear-gradient(135deg, rgba(138,0,255,0.12), rgba(0,240,255,0.06));
-  border-radius:8px; padding:0.75rem;
+.glow-button:hover {
+    box-shadow: 0 0 15px var(--accent-color);
+    transform: translateY(-2px);
 }
 
-/* ------------------------------
-   PSEUDO-ELEMENTOS EDUCATIVOS
-   ------------------------------ */
-/* Decoración para h3: barra a la izquierda con ::before */
-h3::before{
-  content:""; display:inline-block; width:6px; height:100%; margin-right:0.6rem; vertical-align:middle;
-  background: linear-gradient(180deg,var(--accent),var(--accent-2));
-  border-radius:4px;
+/* ============================
+   NAV
+============================ */
+nav {
+    margin-top: 1.5rem;
 }
 
-/* Subrayado animado con ::after (ejemplo para .link-animated) */
-.link-animated{ position:relative; text-decoration:none; color:var(--accent); }
-.link-animated::after{
-  content:""; position:absolute; left:0; right:0; bottom:-3px; height:3px; border-radius:3px;
-  background: linear-gradient(90deg,var(--accent),var(--accent-2)); transform:scaleX(0); transform-origin:left;
-  transition: transform 320ms ease;
-}
-.link-animated:hover::after{ transform:scaleX(1); }
-
-/* ------------------------------
-   ANIMACIONES (keyframes)
-   ------------------------------ */
-@keyframes particleDrift{ 0%{ transform:translateY(0) translateX(0) } 50%{ transform:translateY(-40px) translateX(30px) } 100%{ transform:translateY(0) translateX(0) } }
-@keyframes gridSlide{ from{ background-position:0 0, 0 0 } to{ background-position: 1000px 1000px, -1000px -1000px } }
-@keyframes neonPulse{ 0%{ filter:brightness(0.95); text-shadow:0 0 8px rgba(57,255,20,0.07) } 50%{ filter:brightness(1.15); text-shadow:0 0 28px rgba(57,255,20,0.18) } 100%{ filter:brightness(0.95); text-shadow:0 0 8px rgba(57,255,20,0.07) } }
-@keyframes glitchTop{ 0%{ clip-path: polygon(0 0,100% 0,100% 0,0 0) } 10%{ clip-path: polygon(0 0,100% 0,100% 40%,0 40%) } 100%{ clip-path: polygon(0 0,100% 0,100% 0,0 0) } }
-@keyframes glitchBottom{ 0%{ clip-path: polygon(0 100%,100% 100%,100% 100%,0 100%) } 10%{ clip-path: polygon(0 60%,100% 60%,100% 100%,0 100%) } 100%{ clip-path: polygon(0 100%,100% 100%,100% 100%,0 100%) } }
-
-/* ------------------------------
-   REDUCED MOTION (accesibilidad)
-   ------------------------------ */
-@media (prefers-reduced-motion: reduce){
-  .futuristic-bg::before, .futuristic-bg::after, .neon-text, .glitch::before, .glitch::after{ animation:none !important; transition:none !important; }
+nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    list-style: none;
 }
 
-/* ------------------------------
-   RESPONSIVE tweaks & footer
-   ------------------------------ */
-@media (max-width:900px){
-  header{ padding:var(--space-md) var(--space-sm) }
-  nav ul{ gap:0.4rem }
-}
-@media (max-width:600px){
-  main{ padding:1rem; }
-  .layout-grid{ grid-template-columns:1fr; gap:0.8rem; }
-  header h1{ font-size:1.6rem; }
+nav a {
+    text-decoration: none;
+    color: var(--text-color);
+    padding: 0.4rem 0.7rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
 }
 
-/* Footer */
-footer{
-  position:relative; z-index:4; margin-top:2rem; padding:1.2rem var(--space-md); text-align:center;
-  background: linear-gradient(180deg, rgba(0,0,0,0.12), rgba(255,255,255,0.01));
-  color:var(--muted); font-size:0.95rem;
+nav a:hover {
+    background-color: var(--accent-color);
+    color: #ffffff;
 }
 
-/* ------------------------------
-   EJEMPLOS DE USO (comentados)
-   - Pon .futuristic-bg en <body> o envoltorio
-   - Usa .glass-card en los contenedores de sección
-   - Usa .layout-grid para agrupar cards
-   - Usa .neon-text / .glitch donde quieras efecto
-   ------------------------------ */
+/* ============================
+   MAIN
+============================ */
+main {
+    padding: 2rem;
+    max-width: 1100px;
+    margin: auto;
+}
 
-/* Fin del archivo */
+/* ============================
+   SECCIONES
+============================ */
+section {
+    margin-bottom: 3rem;
+}
+
+section h2 {
+    margin-bottom: 0.8rem;
+    border-bottom: 4px solid var(--accent-color);
+    display: inline-block;
+    padding-bottom: 0.2rem;
+}
+
+/* ============================
+   ARTÍCULO / ASIDE
+============================ */
+article,
+aside {
+    background-color: var(--card-bg);
+    padding: 1rem;
+    border-radius: 12px;
+    margin-top: 1rem;
+    border: 1px solid var(--border-color);
+}
+
+/* ============================
+   LISTAS
+============================ */
+ul, ol {
+    margin-left: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+/* ============================
+   TABLAS
+============================ */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    background-color: var(--card-bg);
+}
+
+caption {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+th, td {
+    padding: 0.6rem;
+    border: 1px solid var(--border-color);
+}
+
+/* ============================
+   FORMULARIOS
+============================ */
+form {
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+label {
+    display: block;
+    margin-top: 0.8rem;
+}
+
+input,
+select,
+button {
+    margin-top: 0.3rem;
+    padding: 0.4rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+button {
+    cursor: pointer;
+}
+
+/* ============================
+   CONTADOR DE CARACTERES
+============================ */
+.contador {
+    opacity: 0.7;
+}
+
+/* ============================
+   RICH TEXT EDITOR
+============================ */
+.rich-tools button {
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+}
+
+/* ============================
+   CANVAS
+============================ */
+canvas {
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    margin-top: 1rem;
+}
+
+/* ============================
+   FOOTER
+============================ */
+footer {
+    padding: 1.5rem;
+    text-align: center;
+    border-top: 2px solid var(--border-color);
+    margin-top: 3rem;
+}

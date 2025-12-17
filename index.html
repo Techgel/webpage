@@ -4,19 +4,23 @@
     <meta charset="utf-8">
     <title>GameHub — Wiki de videojuegos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" href="hoja.css">
 </head>
 
 <body>
     <header>
         <h1>GameHub</h1>
-        <p>Bienvenido a GameHub — la wiki de videojuegos donde encontrarás guías, reseñas y recursos.</p>
+        <p>
+            GameHub nació como un proyecto académico para la materia de <strong>Desarrollo Web</strong> a lo largo de un ciclo escolar.
+            Sin embargo, el objetivo va más allá de cumplir con una entrega: la idea es construir una <strong>wiki funcional</strong>
+            enfocada en videojuegos, donde los usuarios puedan <strong>publicar posts</strong>, compartir <strong>tips, consejos y recomendaciones</strong>,
+            así como comentar y debatir sobre distintos juegos, mecánicas y experiencias.
+        </p>
 
-        <button id="themeToggle" class="glow-button" 
-                style="margin: 10px 0; padding: 8px 14px; font-size: 1rem;">
-            🌙 Modo Claro
+        <button id="themeToggle" class="glow-button" style="margin: 10px 0; padding: 8px 14px; font-size: 1rem;">
+            🌙 Modo Oscuro
         </button>
+
         <nav>
             <ul>
                 <li><a href="#parrafos">Párrafos</a></li>
@@ -25,7 +29,6 @@
                 <li><a href="#organizacion">Organización</a></li>
                 <li><a href="#genericos">Elementos genéricos</a></li>
                 <li><a href="#ligas">Ligas</a></li>
-                <li><a href="#Tablas">Tablas</a></li>
                 <li><a href="#formularios">Formularios</a></li>
                 <li><a href="#incrustado">Contenido incrustado</a></li>
             </ul>
@@ -33,11 +36,26 @@
     </header>
 
     <main>
-        <section id="parrafos">
-            <h2>Párrafos</h2>
-            <p>Un párrafo en HTML se crea con el elemento <code>&lt;p&gt;</code>. En GameHub usamos párrafos para describir juegos, mecánicas y noticias.</p>
-            <p>Texto con <strong>énfasis</strong>, <em>cursiva</em> y <code>fragmentos de código</code> dentro de un párrafo.</p>
-        </section>
+  <section id="parrafos">
+    <h2>Párrafos</h2>
+
+    <p>
+        GameHub nació como un proyecto académico para la materia de Desarrollo Web a lo largo de un ciclo escolar,
+        pero la idea principal siempre ha sido que evolucione más allá de un simple trabajo escolar.
+    </p>
+
+    <p>
+        A futuro, busco convertir esta página en una wiki de videojuegos funcional, donde los usuarios puedan
+        registrarse, crear publicaciones, compartir tips, consejos, recomendaciones y experiencias sobre
+        distintos videojuegos, así como interactuar entre ellos mediante comentarios.
+    </p>
+
+    <p>
+        El objetivo es formar una comunidad activa que aporte contenido útil, mantenga la información actualizada
+        y haga de GameHub un espacio colaborativo enfocado tanto en jugadores casuales como en jugadores más experimentados.
+    </p>
+
+</section>
 
         <section id="encabezados">
             <h2>Encabezados</h2>
@@ -52,21 +70,21 @@
 
             <h3>Lista no ordenada</h3>
             <ul>
-                <li>Reseñas</li>
+                <li>Reseñas de videojuegos</li>
                 <li>Guías
                     <ul>
                         <li>Guía de principiantes</li>
                         <li>Guía avanzada</li>
                     </ul>
                 </li>
-                <li>Foros</li>
+                <li>Consejos de la comunidad</li>
             </ul>
 
             <h3>Lista ordenada</h3>
             <ol>
-                <li>Crear artículo</li>
-                <li>Verificar fuentes</li>
-                <li>Publicar</li>
+                <li>Crear un post</li>
+                <li>Compartir tu experiencia</li>
+                <li>Interactuar con la comunidad</li>
             </ol>
 
             <h3>Lista de definiciones</h3>
@@ -79,181 +97,69 @@
         </section>
 
         <section id="organizacion">
-            <h2>Organización del contenido de la página</h2>
+            <h2>Organización del contenido</h2>
 
             <article>
-                <h3>Artículo de ejemplo</h3>
-                <p>Un <code>&lt;article&gt;</code> representa contenido independiente (ej. una entrada de wiki sobre un juego).</p>
+                <h3>Artículo de la comunidad</h3>
+                <p>
+                    Un <code>&lt;article&gt;</code> representa una publicación independiente, como una reseña,
+                    una guía o un post creado por un usuario.
+                </p>
             </article>
 
             <aside>
-                <h4>Aside / barra lateral</h4>
-                <p>Enlaces rápidos, notas o avisos.</p>
+                <h4>Aside / Barra lateral</h4>
+                <p>Tips rápidos, avisos o recomendaciones destacadas.</p>
             </aside>
-
-            <section>
-                <h3>Sección</h3>
-                <p>Usa <code>&lt;section&gt;</code> para agrupar contenido temático.</p>
-            </section>
         </section>
 
         <section id="genericos">
             <h2>Elementos genéricos</h2>
             <div>
-                <p>Un contenedor genérico <code>&lt;div&gt;</code> que puede agrupar bloques.</p>
-                <p>Texto inline con <span>un &lt;span&gt; dentro</span> para marcar una parte.</p>
+                <p>
+                    Un contenedor genérico <code>&lt;div&gt;</code> para agrupar contenido relacionado.
+                </p>
+                <p>
+                    Texto inline con <span>un &lt;span&gt;</span> para resaltar información.
+                </p>
             </div>
         </section>
 
         <section id="ligas">
             <h2>Ligas (enlaces)</h2>
-
-            <h3>El atributo <code>href</code></h3>
-            <p>El atributo <code>href</code> en <code>&lt;a&gt;</code> indica la dirección de destino.</p>
-
-            <h3>Ligado a páginas web (externo)</h3>
-            <p><a href="https://grandorder.gamepress.gg/" rel="noopener">Ir a gamepress (externo)</a></p>
-
-            <h3>Ligado al interior del sitio (anclas internas)</h3>
-            <p><a href="#encabezados">Ir a la sección de encabezados</a></p>
-
-            <h3>Abrir en nueva ventana/pestaña</h3>
-            <p><a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">Abrir external en nueva pestaña</a></p>
-
-            <h3>Ligas a correos</h3>
-            <p><a href="mailto:soportegamehub@gmail.com?subject=Consulta%20GameHub">Enviar email a soporte</a></p>
-
-            <h3>Ligas a teléfonos</h3>
-            <p><a href="tel:+527321370013">Llamar al soporte: +52 732 137 0013</a></p>
+            <p><a href="https://grandorder.gamepress.gg/" target="_blank" rel="noopener">Ejemplo de enlace externo</a></p>
+            <p><a href="#encabezados">Enlace interno</a></p>
         </section>
-
-        <section id="Tablas">
-            <h2>Tablas</h2>
-
-            <h3>Estructura mínima de tabla</h3>
-            <table border="1" summary="Tabla de ejemplo con horario">
-                <caption>Tabla: Horario de transmisiones</caption>
-                <thead>
-                    <tr>
-                        <th scope="col">Hora</th>
-                        <th scope="col">Canal</th>
-                        <th scope="col">Contenido</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">18:00</th>
-                        <td>GameHubTV</td>
-                        <td>Review semanal</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">20:00</th>
-                        <td>GameHubLive</td>
-                        <td>Gameplay en vivo</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3>Celdas con colspan / rowspan (span)</h3>
-            <table border="1" summary="Tabla con colspan y rowspan">
-                <thead>
-                    <tr>
-                        <th>Sección</th>
-                        <th>Tipo</th>
-                        <th>Detalle</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td rowspan="3">Foros</td>
-                        <td>General</td>
-                        <td>Discusión abierta</td>
-                    </tr>
-                    <tr>
-                        <td>Técnico</td>
-                        <td>Ayuda y problemas</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">Total secciones</td>
-                        <td>3</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <h3>Accesibilidad y agrupación</h3>
-        <p>Usa <code>caption</code>, <code>scope</code> y <code>thead/tbody/tfoot</code> para accesibilidad y estructura.</p>
 
         <section id="formularios">
             <h2>Formularios</h2>
+            <form>
+                <label for="usuario">Usuario:</label>
+                <input type="text" id="usuario" name="usuario">
 
-            <form action="/registro" method="post" aria-labelledby="titulo-form">
-                <h3 id="titulo-form">Registro sencillo en GameHub</h3>
+                <label for="correo">Correo:</label>
+                <input type="email" id="correo" name="correo">
 
-                <fieldset>
-                    <legend>Datos personales</legend>
-
-                    <label for="usuario">Usuario:</label>
-                    <input type="text" id="usuario" name="usuario" required>
-
-                    <br>
-
-                    <label for="correo">Correo:</label>
-                    <input type="email" id="correo" name="correo" required>
-
-                    <br>
-
-                    <label for="password">Contraseña:</label>
-                    <input type="password" id="password" name="password" required>
-                </fieldset>
-
-                <fieldset>
-                    <legend>Preferencias</legend>
-                    <label>
-                        <input type="checkbox" name="noticias" value="si"> Recibir noticias
-                        <input type="checkbox" name="actualizaciones" value="si"> Recibir actualizaciones
-                        <input type="checkbox" name="foros" value="si"> Recibir notificaciones de foros
-                        <input type="checkbox" name="notas" value="si"> Recibir notas de la web
-                        <input type="checkbox" name="anime" value="si"> Recibir noticias de anime
-                        <input type="checkbox" name="videojuegos" value="si"> Recibir noticias de videojuegos
-                    </label>
-
-                    <br>
-
-                    <label for="genero">Género favorito:</label>
-                    <select id="genero" name="genero">
-                        <option value="accion">Acción</option>
-                        <option value="aventura">Aventura</option>
-                        <option value="rpg">RPG</option>
-                        <option value="simulacion">Simulación</option>
-                    </select>
-                </fieldset>
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password">
 
                 <button type="submit">Registrar</button>
-                <button type="reset">Limpiar</button>
             </form>
         </section>
 
         <section id="incrustado">
             <h2>Contenido incrustado</h2>
-
-            <h3>Iframe</h3>
-            <p>Incrustar otra página con <code>&lt;iframe&gt;</code>:</p>
-            <iframe src="https://www.youtube.com/" title="Ejemplo iframe" width="560" height="315">
-                Tu navegador no soporta iframes.
-            </iframe>
-
-            <h3>Canvas</h3>
-            <p>Elemento <code>&lt;canvas&gt;</code></p>
             <canvas id="canvas-gamehub" width="400" height="200"></canvas>
         </section>
     </main>
 
     <footer>
-        <p>GameHub — Contacto: <a href="mailto:soportegamehub@gmail.com">soportegamehub@gmail.com</a> | Tel: <a href="tel:+527321370013">+52 732 137 0013</a></p>
+        <p>
+            GameHub — Proyecto académico de Desarrollo Web | Contacto:
+            <a href="mailto:soportegamehub@gmail.com">soportegamehub@gmail.com</a>
+        </p>
     </footer>
 
     <script src="javascript.js"></script>
-
 </body>
 </html>
