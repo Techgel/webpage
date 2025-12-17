@@ -1,23 +1,38 @@
 /* =========================================
-   1. VARIABLES Y ESTILOS BASE
+   1. VARIABLES Y TEMA (EL CEREBRO DEL COLOR)
    ========================================= */
 :root {
+  /* MODO OSCURO (Por defecto) */
   --primary-color: #00d4ff;       /* Azul neón */
   --secondary-color: #e60012;     /* Rojo Nintendo */
-  --bg-dark: #121212;             /* Fondo muy oscuro */
-  --bg-card: #1e1e1e;             /* Fondo de tarjetas */
-  --text-color: #ffffff;
-  --text-muted: #aaaaaa;
+  --bg-dark: #0a0b10;             /* Fondo principal muy oscuro */
+  --bg-card: #161b22;             /* Fondo de tarjetas/perfil */
+  --text-color: #f0f6fc;          /* Texto casi blanco */
+  --text-muted: #8b949e;          /* Texto gris para detalles */
+  --border-color: #30363d;        /* Bordes sutiles */
   --border-radius: 8px;
 }
 
+/* MODO CLARO (Se activa con la clase .theme-light) */
+.theme-light {
+  --bg-dark: #ffffff;             /* Fondo blanco */
+  --bg-card: #f3f4f6;             /* Fondo de tarjetas gris claro */
+  --text-color: #1f2937;          /* Texto gris oscuro */
+  --text-muted: #6b7280;          /* Texto secundario */
+  --border-color: #e5e7eb;        /* Bordes claros */
+  --primary-color: #0284c7;       /* Azul más oscuro para contraste */
+}
+
+/* =========================================
+   2. ESTILOS GENERALES
+   ========================================= */
 body {
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: var(--bg-dark);
   color: var(--text-color);
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .App {
@@ -27,22 +42,23 @@ body {
 }
 
 /* =========================================
-   2. HEADER Y NAVEGACIÓN (RESPONSIVO)
+   3. HEADER Y NAVEGACIÓN RESPONSIVA
    ========================================= */
 header {
   text-align: center;
   margin-bottom: 30px;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--border-color);
   padding-bottom: 20px;
 }
 
 h1 {
   font-size: 2.5rem;
   margin-bottom: 10px;
-  text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+  /* Efecto neón en el título */
+  text-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
 }
 
-/* Botón Hamburguesa (Visible solo en Móvil) */
+/* Botón Hamburguesa (Móvil) */
 .btn-menu {
   display: block;
   margin: 15px auto;
@@ -58,23 +74,24 @@ h1 {
 
 .btn-menu:hover {
   background: var(--primary-color);
-  color: #000;
+  color: var(--bg-dark); /* Texto cambia al color del fondo para contraste */
 }
 
-/* Contenedor de enlaces (Oculto en móvil por defecto) */
+/* Lista de Enlaces (Menú) */
 .nav-links {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: none; /* Se oculta */
+  display: none; /* Oculto en móvil por defecto */
   flex-direction: column;
   gap: 10px;
   background-color: var(--bg-card);
   padding: 15px;
   border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
 }
 
-/* Clase para mostrar el menú cuando se abre */
+/* Clase para abrir el menú */
 .nav-links.open {
   display: flex;
 }
@@ -88,7 +105,7 @@ h1 {
   padding: 10px;
   width: 100%;
   text-align: center;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--border-color);
   transition: color 0.3s;
 }
 
@@ -98,11 +115,11 @@ h1 {
 }
 
 /* =========================================
-   3. ESTILOS PARA ESCRITORIO (PC)
+   4. ESTILOS DE ESCRITORIO (PC)
    ========================================= */
 @media (min-width: 768px) {
   .btn-menu {
-    display: none; /* Ocultamos el botón de hamburguesa */
+    display: none; /* Adiós hamburguesa en PC */
   }
 
   .navbar {
@@ -112,27 +129,35 @@ h1 {
   }
 
   .nav-links {
-    display: flex; /* Siempre visible en PC */
+    display: flex;       /* Siempre visible */
     flex-direction: row; /* Horizontal */
     background-color: transparent;
     padding: 0;
-    gap: 20px;
+    gap: 15px;
+    border: none;
   }
 
   .nav-links li button {
     width: auto;
     border-bottom: none;
-    font-size: 1.1rem;
+    font-size: 1rem;
+    padding: 8px 12px;
+  }
+  
+  /* Efecto hover tipo botón en PC */
+  .nav-links li button:hover {
+    background-color: rgba(0, 212, 255, 0.1);
+    border-radius: 4px;
   }
 }
 
 /* =========================================
-   4. COMPONENTES INTERNOS (Tablas, Listas, Forms)
+   5. COMPONENTES (Tablas, Forms, Animaciones)
    ========================================= */
 
-/* Animación de entrada */
+/* Animación suave de entrada */
 .fade-in {
-  animation: fadeIn 0.5s ease-in-out;
+  animation: fadeIn 0.4s ease-out;
 }
 
 @keyframes fadeIn {
@@ -140,29 +165,32 @@ h1 {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Tablas (Organización) */
+/* Tablas Responsivas */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 15px;
   background-color: var(--bg-card);
+  color: var(--text-color);
 }
 
 th, td {
   padding: 12px;
-  border: 1px solid #444;
+  border: 1px solid var(--border-color);
+  text-align: left;
 }
 
 th {
-  background-color: rgba(0, 212, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.2); /* Sutilmente más oscuro */
   color: var(--primary-color);
 }
 
 /* Formularios */
 form {
   background-color: var(--bg-card);
-  padding: 20px;
+  padding: 25px;
   border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
   max-width: 500px;
   margin: 0 auto;
   display: flex;
@@ -170,44 +198,31 @@ form {
   gap: 15px;
 }
 
-input {
-  padding: 10px;
-  border-radius: 4px;
-  border: 1px solid #555;
-  background-color: #333;
-  color: white;
+label {
+  font-weight: bold;
+  font-size: 0.9rem;
 }
 
-button[type="submit"] {
+input {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-dark); /* Input oscuro sobre tarjeta */
+  color: var(--text-color);
+}
+
+button[type="submit"], .glow-button {
   background-color: var(--primary-color);
-  color: #000;
+  color: #000; /* Texto negro para contraste en el neón */
   font-weight: bold;
   border: none;
-  padding: 10px;
+  padding: 10px 20px;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 6px;
+  transition: transform 0.1s, box-shadow 0.2s;
 }
 
-/* =========================================
-   5. TEMA CLARO (Light Mode)
-   ========================================= */
-.theme-light {
-  --bg-dark: #f4f4f4;
-  --bg-card: #ffffff;
-  --text-color: #333333;
-  --text-muted: #666666;
-}
-
-.theme-light input {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  color: #333;
-}
-
-.theme-light table {
-  border-color: #ddd;
-}
-
-.theme-light th, .theme-light td {
-  border: 1px solid #ddd;
+button[type="submit"]:hover, .glow-button:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 10px var(--primary-color);
 }

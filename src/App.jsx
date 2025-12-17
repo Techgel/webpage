@@ -2,26 +2,23 @@ import { useState, useEffect, useRef } from 'react';
 import './App.css';
 
 function App() {
-  // 1. ESTADO DE NAVEGACIÓN
+  // ==========================================
+  // 1. ESTADOS (Cerebro de la App)
+  // ==========================================
   const [activeSection, setActiveSection] = useState("parrafos"); 
-
-  // 2. ESTADO DEL TEMA
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
-
-  // 3. ESTADO DEL FORMULARIO
-  const [formValues, setFormValues] = useState({
-    usuario: "",
-    correo: "",
-    password: ""
-  });
-
-  // 4. MENÚ RESPONSIVO (Estado de apertura)
   const [menuOpen, setMenuOpen] = useState(false);
+  const [profileTab, setProfileTab] = useState('STATS'); // <--- NUEVO: Para las pestañas del perfil
 
-  // 5. CANVAS
+  // Formulario
+  const [formValues, setFormValues] = useState({ usuario: "", correo: "", password: "" });
+  
+  // Canvas
   const canvasRef = useRef(null);
 
-  // EFECTOS
+  // ==========================================
+  // 2. EFECTOS (Lo que pasa automático)
+  // ==========================================
   useEffect(() => {
     const root = document.documentElement;
     if (theme === 'light') {
@@ -33,6 +30,7 @@ function App() {
     }
   }, [theme]);
 
+  // Efecto del Canvas
   useEffect(() => {
     if (activeSection === 'incrustado') {
       const canvas = canvasRef.current;
@@ -47,53 +45,53 @@ function App() {
     }
   }, [activeSection]);
 
-  // MANEJADORES
+  // ==========================================
+  // 3. FUNCIONES (Manejadores de eventos)
+  // ==========================================
   const toggleTheme = () => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  
   const handleInputChange = (e) => setFormValues({ ...formValues, [e.target.name]: e.target.value });
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     if(window.confirm("¿Enviar datos?")) alert("¡Enviado!");
   };
+  
   const execCmd = (cmd) => document.execCommand(cmd, false, null);
 
-  // Función auxiliar para navegar y cerrar el menú móvil al mismo tiempo
   const navigateTo = (section) => {
     setActiveSection(section);
-    setMenuOpen(false); // Cierra el menú al hacer clic
+    setMenuOpen(false);
   };
 
+  // ==========================================
+  // 4. RENDERIZADO (HTML / JSX)
+  // ==========================================
   return (
     <div className="App">
       <header>
         <h1>GameHub</h1>
-        {/* TEXTO DE ENCABEZADO */}
         <p style={{ maxWidth: '800px', margin: '0 auto 20px auto', lineHeight: '1.5' }}>
-          GameHub nació como un proyecto académico para la materia de <strong>Desarrollo Web</strong> a lo largo de un ciclo escolar. 
-          Sin embargo, el objetivo va más allá de cumplir con una entrega: la idea es construir una <strong>wiki funcional</strong> enfocada en videojuegos.
+          GameHub nació como un proyecto académico para la materia de <strong>Desarrollo Web</strong>. 
+          Ahora incluye perfiles dinámicos y adaptación de temas.
         </p>
 
         <button id="themeToggle" className="glow-button" onClick={toggleTheme} style={{ margin: '10px 0', padding: '8px 14px' }}>
           {theme === 'light' ? "🌙 Modo Oscuro" : "☀️ Modo Claro"}
         </button>
 
-        {/* NAVEGACIÓN RESPONSIVA MODIFICADA */}
+        {/* NAVEGACIÓN */}
         <nav className="navbar">
-          {/* Botón Hamburguesa (Solo visible en Móvil gracias al CSS) */}
-          <button 
-            className="btn-menu" 
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            ☰ Menú
-          </button>
+          <button className="btn-menu" onClick={() => setMenuOpen(!menuOpen)}>☰ Menú</button>
 
-          {/* Lista de Enlaces (Se oculta/muestra con CSS y la clase 'open') */}
           <ul className={menuOpen ? "nav-links open" : "nav-links"}>
             <li><button onClick={() => navigateTo("parrafos")}>Inicio</button></li>
             <li><button onClick={() => navigateTo("encabezados")}>Encabezados</button></li>
             <li><button onClick={() => navigateTo("listas")}>Listas</button></li>
-            <li><button onClick={() => navigateTo("organizacion")}>Organización</button></li>
-            <li><button onClick={() => navigateTo("genericos")}>Genéricos</button></li>
-            <li><button onClick={() => navigateTo("formularios")}>Formularios</button></li>
+            <li><button onClick={() => navigateTo("perfil")}>Perfil Gamer</button></li> {/* <--- NUEVO BOTÓN */}
+            <li><button onClick={() => navigateTo("organizacion")}>Hardware</button></li>
+            <li><button onClick={() => navigateTo("genericos")}>Curiosidades</button></li>
+            <li><button onClick={() => navigateTo("formularios")}>Registro</button></li>
             <li><button onClick={() => navigateTo("incrustado")}>Canvas</button></li>
           </ul>
         </nav>
@@ -104,103 +102,194 @@ function App() {
         {activeSection === "parrafos" && (
           <section className="fade-in">
             <h2>Bienvenido a GameHub</h2>
-            <p>Este es el hub central para todo lo relacionado con videojuegos. Aquí encontrarás información detallada organizada de manera eficiente.</p>
-            <p>Navega por el menú para ver los diferentes componentes HTML/React implementados.</p>
+            <p>Este es el hub central para todo lo relacionado con videojuegos.</p>
           </section>
         )}
 
         {/* SECCIÓN 2: ENCABEZADOS */}
         {activeSection === "encabezados" && (
           <section className="fade-in">
-            <h2>Jerarquía de Encabezados</h2>
+            <h2>Jerarquía de Noticias</h2>
             <hr />
-            <h1>Noticias de Última Hora</h1>
-            <h2>Lanzamientos de la Semana</h2>
-            <h3>Reseñas de Usuarios</h3>
-            <h4>Detalles Técnicos (FPS/Resolución)</h4>
-            <h5>Notas del Parche v1.2</h5>
-            <h6>Copyright 2025</h6>
+            <h1>Gran Actualización de FGO</h1>
+            <h2>Nuevos Servants Disponibles</h2>
+            <h3>Análisis del Meta Actual</h3>
           </section>
         )}
 
         {/* SECCIÓN 3: LISTAS */}
         {activeSection === "listas" && (
           <section className="fade-in">
-            <h2>Inventario Gamer</h2>
-            
-            {/* Lista Desordenada */}
+            <h2>Inventario</h2>
             <ul>
-              <li>Mouse Gamer RGB</li>
-              <li>Teclado Mecánico 60%</li>
-              <li>Monitor 144hz Curvo</li>
+              <li>Excalibur</li>
+              <li>Saints Quartz</li>
+              <li>Golden Apples</li>
             </ul>
-            <br />
-
-            {/* Lista Ordenada */}
-            <ol>
-              <li>The Legend of Zelda: Ocarina of Time</li>
-              <li>Grand Theft Auto V</li>
-              <li>Elden Ring</li>
-            </ol>
-            <br />
-
-            {/* Lista Anidada */}
-            <ul>
-              <li>Plataformas
-                <ol>
-                  <li>PlayStation 5</li>
-                  <li>Xbox Series X</li>
-                  <li>Nintendo Switch</li>
-                </ol>
-              </li>
-              <li>PC Master Race</li>
-            </ul>
-            <br />
-
-            {/* Lista de Definición */}
-            <dl style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px' }}>
-              <dt><strong>NPC</strong></dt>
-              <dd>Non-Playable Character (Personaje no jugable).</dd>
-              
-              <dt><strong>FPS</strong></dt>
-              <dd>Frames Per Second (Cuadros por segundo) o First Person Shooter.</dd>
-              
-              <dt><strong>Lag</strong></dt>
-              <dd>Retraso en la comunicación entre el servidor y tu juego.</dd>
-            </dl>
           </section>
         )}
 
-        {/* SECCIÓN 4: ORGANIZACIÓN (Tabla) */}
+        {/* ========================================================
+             SECCIÓN NUEVA: PERFIL GAMER (INTEGRADO Y TEMATIZADO)
+           ======================================================== */}
+        {activeSection === "perfil" && (
+          <section className="fade-in" style={{ width: '100%' }}>
+            
+            {/* Tarjeta Principal: Usa variables CSS para cambiar de color con el tema */}
+            <div style={{
+              background: 'var(--bg-card)', // <--- ESTO HACE LA MAGIA DEL TEMA
+              color: 'var(--text-color)',
+              padding: '2rem',
+              borderRadius: '12px',
+              border: '1px solid #333',
+              maxWidth: '800px',
+              margin: '0 auto',
+              boxShadow: '0 0 20px rgba(0, 212, 255, 0.1)',
+              transition: 'background 0.3s, color 0.3s'
+            }}>
+              
+              {/* Header del Perfil */}
+              <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+                <h2 style={{ fontSize: '2.5rem', margin: 0, color: '#06b6d4' }}>
+                  Gamer<span style={{ color: '#facc15' }}>Hub</span> Profile
+                </h2>
+                <p style={{ opacity: 0.7 }}>ID: 943-201-442</p>
+              </div>
+
+              {/* Ficha del Personaje */}
+              <div style={{ 
+                background: theme === 'light' ? '#f0f0f0' : '#151921', // Fondo interior reactivo
+                padding: '1.5rem', 
+                borderRadius: '8px', 
+                border: '1px solid var(--primary-color)',
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '20px',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                
+                {/* Avatar */}
+                <div style={{ 
+                  width: '120px', height: '120px', borderRadius: '50%', 
+                  background: '#333', border: '3px solid #06b6d4',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  boxShadow: '0 0 15px #06b6d4', overflow: 'hidden'
+                }}>
+                   <span style={{fontSize: '2rem'}}>👑</span>
+                </div>
+
+                {/* Datos */}
+                <div style={{ flex: 1, minWidth: '200px' }}>
+                  <h3 style={{ fontSize: '1.8rem', margin: '0 0 5px 0' }}>Altria Pendragon</h3>
+                  <p style={{ color: '#06b6d4', fontStyle: 'italic', margin: 0, fontWeight: 'bold' }}>"Saber Class"</p>
+                  
+                  {/* Grid de Stats */}
+                  <div style={{ display: 'flex', gap: '10px', marginTop: '15px', flexWrap: 'wrap' }}>
+                    {[
+                      { l: 'HP', v: '15,150', c: '#22d3ee' },
+                      { l: 'ATK', v: '11,221', c: '#f87171' },
+                      { l: 'COST', v: '16', c: '#facc15' }
+                    ].map((st) => (
+                      <div key={st.l} style={{ 
+                        background: theme === 'light' ? '#fff' : '#0d1117', 
+                        padding: '8px 15px', borderRadius: '6px', border: '1px solid #444', flex: 1
+                      }}>
+                        <span style={{ fontSize: '0.7rem', opacity: 0.7, display: 'block' }}>{st.l}</span>
+                        <strong style={{ color: st.c, fontSize: '1.1rem' }}>{st.v}</strong>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Pestañas Interactivas */}
+              <div style={{ marginTop: '2rem' }}>
+                <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginBottom: '1rem' }}>
+                  {['STATS', 'SKILLS', 'EVALUATION'].map((tab) => (
+                    <button
+                      key={tab}
+                      onClick={() => setProfileTab(tab)}
+                      style={{ 
+                        padding: '8px 20px', 
+                        background: profileTab === tab ? '#06b6d4' : 'transparent', 
+                        color: profileTab === tab ? 'black' : 'var(--text-color)', 
+                        border: profileTab === tab ? 'none' : '1px solid #444', 
+                        borderRadius: '4px', 
+                        fontWeight: 'bold', 
+                        cursor: 'pointer',
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      {tab}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Contenido de Pestañas */}
+                <div style={{ 
+                  background: theme === 'light' ? '#f9f9f9' : '#1c2128', 
+                  padding: '1.5rem', borderRadius: '8px', border: '1px solid #333' 
+                }}>
+                  {profileTab === 'STATS' && (
+                    <ul style={{ listStyle: 'none', padding: 0 }}>
+                      <li style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #333', padding: '10px 0' }}>
+                        <span>Fuerza</span> <strong style={{ color: '#facc15' }}>A</strong>
+                      </li>
+                      <li style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #333', padding: '10px 0' }}>
+                        <span>Resistencia</span> <strong style={{ color: '#22d3ee' }}>B</strong>
+                      </li>
+                      <li style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0' }}>
+                        <span>Agilidad</span> <strong style={{ color: '#c084fc' }}>B</strong>
+                      </li>
+                    </ul>
+                  )}
+                  
+                  {profileTab === 'SKILLS' && (
+                    <div>
+                      <h3 style={{ color: '#facc15', marginTop: 0 }}>Mana Burst A</h3>
+                      <p>Incrementa el rendimiento de las cartas Buster por 1 turno.</p>
+                      <hr style={{borderColor: '#444'}}/>
+                      <h3 style={{ color: '#facc15', marginTop: 10 }}>Charisma B</h3>
+                      <p>Incrementa el ataque de todo el equipo.</p>
+                    </div>
+                  )}
+
+                  {profileTab === 'EVALUATION' && (
+                    <p style={{fontStyle: 'italic', lineHeight: '1.6'}}>
+                      "Excelente Servant para farming y daño en área. Su Noble Phantasm puede limpiar oleadas enteras de enemigos con facilidad. Recomendada para principiantes."
+                    </p>
+                  )}
+                </div>
+              </div>
+
+            </div>
+          </section>
+        )}
+
+        {/* SECCIÓN 4: ORGANIZACIÓN */}
         {activeSection === "organizacion" && (
           <section className="fade-in">
             <h2>Comparativa de Hardware</h2>
-            <p>Tabla de requisitos recomendados para juegos AAA en 2025:</p>
-
             <div style={{ overflowX: 'auto' }}>
-              <table border="1" style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px', textAlign: 'left' }}>
+              <table border="1">
                 <thead>
-                  <tr style={{ backgroundColor: 'rgba(0,0,0,0.2)' }}>
-                    <th style={{ padding: '10px' }}>Componente</th>
-                    <th style={{ padding: '10px' }}>Mínimo</th>
-                    <th style={{ padding: '10px' }}>Recomendado</th>
+                  <tr>
+                    <th>Componente</th>
+                    <th>Mínimo</th>
+                    <th>Recomendado</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td style={{ padding: '10px' }}>Procesador</td>
-                    <td style={{ padding: '10px' }}>Intel i5 10400</td>
-                    <td style={{ padding: '10px' }}>Intel i7 13700K</td>
+                    <td>CPU</td>
+                    <td>Ryzen 3</td>
+                    <td>Ryzen 5 7600</td>
                   </tr>
                   <tr>
-                    <td style={{ padding: '10px' }}>Gráfica</td>
-                    <td style={{ padding: '10px' }}>GTX 1660 Super</td>
-                    <td style={{ padding: '10px' }}>RTX 4070</td>
-                  </tr>
-                  <tr>
-                    <td style={{ padding: '10px' }}>Almacenamiento</td>
-                    <td style={{ padding: '10px' }}>50GB SSD</td>
-                    <td style={{ padding: '10px' }}>1TB NVMe</td>
+                    <td>GPU</td>
+                    <td>GTX 1060</td>
+                    <td>RTX 4060</td>
                   </tr>
                 </tbody>
               </table>
@@ -211,54 +300,21 @@ function App() {
         {/* SECCIÓN 5: GENÉRICOS */}
         {activeSection === "genericos" && (
           <section className="fade-in">
-            <h2>Curiosidades del Gaming</h2>
-            
-            <h3>Frases Icónicas (`blockquote`)</h3>
-            <blockquote style={{ borderLeft: '4px solid #e60012', paddingLeft: '10px', margin: '20px 0', fontStyle: 'italic' }}>
-              "It's dangerous to go alone! Take this." 
-              <br />— The Legend of Zelda (NES, 1986)
-            </blockquote>
-
-            <h3>Secretos Ocultos (`details`)</h3>
-            <details style={{ background: 'rgba(255,255,255,0.1)', padding: '10px', borderRadius: '5px', marginBottom: '10px' }}>
-              <summary style={{ cursor: 'pointer', fontWeight: 'bold' }}>¿Sabías que Mario golpea los bloques con...?</summary>
-              <p style={{ marginTop: '10px' }}>
-                ¡Con el puño! Mucha gente cree que usa la cabeza, pero si miras el sprite original detenidamente, verás que levanta el puño justo antes de impactar.
-              </p>
+            <h2>Curiosidades</h2>
+            <details style={{ background: 'var(--bg-card)', padding: '10px', borderRadius: '5px' }}>
+              <summary style={{ cursor: 'pointer', fontWeight: 'bold' }}>¿Cuál fue el primer videojuego?</summary>
+              <p>Muchos consideran a 'Pong', pero 'Tennis for Two' (1958) vino antes.</p>
             </details>
-
-            <h3>Desarrolladora Legendaria (`address`)</h3>
-            <address style={{ border: '1px dashed gray', padding: '10px', marginTop: '20px' }}>
-              <strong>Nintendo Co., Ltd.</strong><br />
-              11-1 Hokotate-cho, Kamitoba,<br />
-              Minami-ku, Kyoto 601-8501, Japan<br />
-              Creadores de: Mario, Zelda, Metroid.
-            </address>
-
-            <h3>El Código Konami (`pre`)</h3>
-            <p>El truco más famoso de la historia:</p>
-            <pre style={{ background: '#222', padding: '10px', borderRadius: '5px', overflowX: 'auto', fontFamily: 'monospace' }}>
-Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
-            </pre>
           </section>
         )}
 
         {/* SECCIÓN 6: FORMULARIOS */}
         {activeSection === "formularios" && (
           <section className="fade-in">
-            <h2>Registro Gamer</h2>
+            <h2>Registro</h2>
             <form onSubmit={handleSubmit}>
               <label>Gamertag: <input type="text" name="usuario" value={formValues.usuario} onChange={handleInputChange} /></label>
               <label>Email: <input type="email" name="correo" value={formValues.correo} onChange={handleInputChange} /></label>
-              <label>Password: <input type="password" name="password" value={formValues.password} onChange={handleInputChange} /></label>
-              
-              <div className="rich-tools" style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-                <button type="button" onClick={() => execCmd('bold')}><b>B</b></button>
-                <button type="button" onClick={() => execCmd('italic')}><i>I</i></button>
-                <button type="button" onClick={() => execCmd('underline')}><u>U</u></button>
-              </div>
-              <div className="rich-editor" contentEditable="true" style={{ minHeight: '80px', border: '1px solid #ccc', background: 'white', color: 'black', padding: '5px', marginTop: '5px' }}></div>
-              
               <button type="submit" style={{ marginTop: '10px' }}>Unirse</button>
             </form>
           </section>
@@ -267,7 +323,7 @@ Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
         {/* SECCIÓN 7: CANVAS */}
         {activeSection === "incrustado" && (
           <section className="fade-in">
-            <h2>Canvas (Dibujo JS)</h2>
+            <h2>Canvas</h2>
             <canvas ref={canvasRef} width="400" height="200" style={{ border: '2px solid white', marginTop: '10px' }}></canvas>
           </section>
         )}
