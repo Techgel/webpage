@@ -2,24 +2,26 @@ import { useState, useEffect, useRef } from 'react';
 import './App.css';
 
 function App() {
-  // 1. ESTADO PARA EL MODO OSCURO
-  // Leemos la preferencia guardada o usamos 'dark' por defecto
+  // 1. ESTADO DE NAVEGACIÓN
+  const [activeSection, setActiveSection] = useState("parrafos"); 
+
+  // 2. ESTADO DEL TEMA
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
 
-  // 2. ESTADO PARA LOS INPUTS (Para los contadores de caracteres)
+  // 3. ESTADO DEL FORMULARIO
   const [formValues, setFormValues] = useState({
     usuario: "",
     correo: "",
     password: ""
   });
 
-  // 3. ESTADO PARA EL MENÚ RESPONSIVO
+  // 4. MENÚ RESPONSIVO
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // 4. REFERENCIA PARA EL CANVAS
+  // 5. CANVAS
   const canvasRef = useRef(null);
 
-  // EFECTO: Aplicar el tema (Modo Oscuro/Claro)
+  // EFECTOS
   useEffect(() => {
     const root = document.documentElement;
     if (theme === 'light') {
@@ -31,190 +33,242 @@ function App() {
     }
   }, [theme]);
 
-  // EFECTO: Dibujar en el Canvas al cargar
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (canvas) {
-      const ctx = canvas.getContext("2d");
-      // Fondo azul cielo
-      ctx.fillStyle = "#87CEEB";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      // Texto
-      ctx.fillStyle = "#0b2545";
-      ctx.font = "20px Arial";
-      ctx.fillText("Bienvenido a GameHub 💙", 80, 110);
+    if (activeSection === 'incrustado') {
+      const canvas = canvasRef.current;
+      if (canvas) {
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#87CEEB";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#0b2545";
+        ctx.font = "20px Arial";
+        ctx.fillText("GameHub Interactivo 🎮", 80, 110);
+      }
     }
-  }, []);
+  }, [activeSection]);
 
-  // FUNCIONES DE MANEJO
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormValues({ ...formValues, [name]: value });
-  };
-
+  // MANEJADORES
+  const toggleTheme = () => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  const handleInputChange = (e) => setFormValues({ ...formValues, [e.target.name]: e.target.value });
   const handleSubmit = (e) => {
-    e.preventDefault(); // Evita recargar la página
-    // Tu confirmación original
-    const confirmar = window.confirm("¿Deseas enviar el formulario, Angelo?");
-    if (confirmar) {
-      alert("¡Formulario enviado!");
-      // Aquí iría la lógica real de envío
-    }
+    e.preventDefault();
+    if(window.confirm("¿Enviar datos?")) alert("¡Enviado!");
   };
+  const execCmd = (cmd) => document.execCommand(cmd, false, null);
 
-  const execCmd = (cmd) => {
-    // Ejecuta comandos de formato para el editor de texto rico
-    document.execCommand(cmd, false, null);
+  // Estilos de botones del menú
+  const navButtonStyle = {
+    background: 'transparent', border: 'none', color: 'inherit',
+    cursor: 'pointer', fontSize: '1rem', padding: '10px',
+    fontWeight: 'bold', textDecoration: activeSection ? 'none' : 'underline'
   };
 
   return (
     <div className="App">
-      {/* HEADER */}
       <header>
         <h1>GameHub</h1>
-        <p>
-          GameHub nació como un proyecto académico para la materia de <strong>Desarrollo Web</strong> a lo largo de un ciclo escolar.
-          Sin embargo, el objetivo va más allá de cumplir con una entrega: la idea es construir una <strong>wiki funcional </strong>
-          enfocada en videojuegos.
+        {/* TEXTO DE ENCABEZADO ACTUALIZADO */}
+        <p style={{ maxWidth: '800px', margin: '0 auto 20px auto', lineHeight: '1.5' }}>
+          GameHub nació como un proyecto académico para la materia de <strong>Desarrollo Web</strong> a lo largo de un ciclo escolar. 
+          Sin embargo, el objetivo va más allá de cumplir con una entrega: la idea es construir una <strong>wiki funcional</strong> enfocada en videojuegos.
         </p>
 
-        {/* Botón de Tema */}
-        <button 
-          id="themeToggle" 
-          className="glow-button" 
-          onClick={toggleTheme}
-          style={{ margin: '10px 0', padding: '8px 14px', fontSize: '1rem' }}
-        >
+        <button id="themeToggle" className="glow-button" onClick={toggleTheme} style={{ margin: '10px 0', padding: '8px 14px' }}>
           {theme === 'light' ? "🌙 Modo Oscuro" : "☀️ Modo Claro"}
         </button>
 
-        {/* Menú de Navegación */}
-        <nav style={{ position: 'relative' }}>
-          {/* Botón de Menú Responsivo (creado dinámicamente en tu JS original) */}
-          <button 
-            className="btn-menu" 
-            onClick={() => setMenuOpen(!menuOpen)}
-            style={{ 
-              display: 'block', 
-              marginBottom: '10px', 
-              fontSize: '1.5rem', 
-              background: 'transparent', 
-              border: 'none', 
-              color: 'var(--text-color)', 
-              cursor: 'pointer' 
-            }}
-          >
-            ☰
+        <nav>
+          <button className="btn-menu" onClick={() => setMenuOpen(!menuOpen)} style={{ display: 'block', marginBottom: '10px', fontSize: '1.5rem', background: 'transparent', border: 'none', color: 'var(--text-color)', cursor: 'pointer' }}>
+            ☰ Menú
           </button>
-
-          {/* Lista de links con clase condicional para mostrar/ocultar */}
           <ul className={menuOpen ? "open" : ""} style={menuOpen ? { display: 'block' } : {}}>
-            <li><a href="#parrafos">Párrafos</a></li>
-            <li><a href="#encabezados">Encabezados</a></li>
-            <li><a href="#listas">Listas</a></li>
-            <li><a href="#organizacion">Organización</a></li>
-            <li><a href="#genericos">Genericos</a></li>
-            <li><a href="#formularios">Formularios</a></li>
-            <li><a href="#incrustado">Canvas</a></li>
+            <li><button style={navButtonStyle} onClick={() => setActiveSection("parrafos")}>Inicio</button></li>
+            <li><button style={navButtonStyle} onClick={() => setActiveSection("encabezados")}>Encabezados</button></li>
+            <li><button style={navButtonStyle} onClick={() => setActiveSection("listas")}>Listas</button></li>
+            <li><button style={navButtonStyle} onClick={() => setActiveSection("organizacion")}>Organización</button></li>
+            <li><button style={navButtonStyle} onClick={() => setActiveSection("genericos")}>Genéricos</button></li>
+            <li><button style={navButtonStyle} onClick={() => setActiveSection("formularios")}>Formularios</button></li>
+            <li><button style={navButtonStyle} onClick={() => setActiveSection("incrustado")}>Canvas</button></li>
           </ul>
         </nav>
       </header>
 
-      {/* MAIN CONTENT */}
       <main>
-        {/* Secciones de texto omitidas para ahorrar espacio visual, 
-            pero aquí va todo tu contenido de texto (Párrafos, Encabezados, Listas...) 
-            Tal cual como lo tenías en el HTML anterior. */}
-        
-        <section id="parrafos">
-          <h2>Párrafos</h2>
-          <p>Bienvenido a la versión React de GameHub. Aquí el contenido sigue igual.</p>
-        </section>
+        {/* SECCIÓN 1: INICIO */}
+        {activeSection === "parrafos" && (
+          <section className="fade-in">
+            <h2>Bienvenido a GameHub</h2>
+            <p>Este es el hub central para todo lo relacionado con videojuegos. Aquí encontrarás información detallada organizada de manera eficiente.</p>
+            <p>Navega por el menú para ver los diferentes componentes HTML/React implementados.</p>
+          </section>
+        )}
 
-        {/* ... Resto de secciones ... */}
+        {/* SECCIÓN 2: ENCABEZADOS */}
+        {activeSection === "encabezados" && (
+          <section className="fade-in">
+            <h2>Jerarquía de Encabezados</h2>
+            <hr />
+            <h1>Noticias de Última Hora</h1>
+            <h2>Lanzamientos de la Semana</h2>
+            <h3>Reseñas de Usuarios</h3>
+            <h4>Detalles Técnicos (FPS/Resolución)</h4>
+            <h5>Notas del Parche v1.2</h5>
+            <h6>Copyright 2025</h6>
+          </section>
+        )}
 
-        <section id="formularios">
-          <h2>Formularios</h2>
-          <form onSubmit={handleSubmit}>
+        {/* SECCIÓN 3: LISTAS (Sin títulos, solo las listas) */}
+        {activeSection === "listas" && (
+          <section className="fade-in">
+            <h2>Inventario Gamer</h2>
             
-            {/* USUARIO */}
-            <label htmlFor="usuario">Usuario:</label>
-            <input 
-              type="text" 
-              id="usuario" 
-              name="usuario" 
-              value={formValues.usuario}
-              onChange={handleInputChange}
-            />
-            <span className="contador" style={{ fontSize: '0.8rem', display: 'block', marginTop: '4px', opacity: 0.7 }}>
-              {formValues.usuario.length} caracteres
-            </span>
+            {/* Lista Desordenada */}
+            <ul>
+              <li>Mouse Gamer RGB</li>
+              <li>Teclado Mecánico 60%</li>
+              <li>Monitor 144hz Curvo</li>
+            </ul>
+            <br />
 
-            {/* CORREO */}
-            <label htmlFor="correo">Correo:</label>
-            <input 
-              type="email" 
-              id="correo" 
-              name="correo" 
-              value={formValues.correo}
-              onChange={handleInputChange}
-            />
-             <span className="contador" style={{ fontSize: '0.8rem', display: 'block', marginTop: '4px', opacity: 0.7 }}>
-              {formValues.correo.length} caracteres
-            </span>
+            {/* Lista Ordenada */}
+            <ol>
+              <li>The Legend of Zelda: Ocarina of Time</li>
+              <li>Grand Theft Auto V</li>
+              <li>Elden Ring</li>
+            </ol>
+            <br />
 
-            {/* PASSWORD */}
-            <label htmlFor="password">Contraseña:</label>
-            <input 
-              type="password" 
-              id="password" 
-              name="password" 
-              value={formValues.password}
-              onChange={handleInputChange}
-            />
-             <span className="contador" style={{ fontSize: '0.8rem', display: 'block', marginTop: '4px', opacity: 0.7 }}>
-              {formValues.password.length} caracteres
-            </span>
+            {/* Lista Anidada */}
+            <ul>
+              <li>Plataformas
+                <ol>
+                  <li>PlayStation 5</li>
+                  <li>Xbox Series X</li>
+                  <li>Nintendo Switch</li>
+                </ol>
+              </li>
+              <li>PC Master Race</li>
+            </ul>
+            <br />
 
-            {/* EDITOR RICH TEXT (Integrado en React) */}
-            <div className="rich-tools" style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-              <button type="button" onClick={() => execCmd('bold')}><b>B</b></button>
-              <button type="button" onClick={() => execCmd('italic')}><i>I</i></button>
-              <button type="button" onClick={() => execCmd('underline')}><u>U</u></button>
-              <button type="button" onClick={() => execCmd('insertOrderedList')}>1.</button>
-              <button type="button" onClick={() => execCmd('insertUnorderedList')}>•</button>
+            {/* Lista de Definición */}
+            <dl style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px' }}>
+              <dt><strong>NPC</strong></dt>
+              <dd>Non-Playable Character (Personaje no jugable).</dd>
+              
+              <dt><strong>FPS</strong></dt>
+              <dd>Frames Per Second (Cuadros por segundo) o First Person Shooter.</dd>
+              
+              <dt><strong>Lag</strong></dt>
+              <dd>Retraso en la comunicación entre el servidor y tu juego.</dd>
+            </dl>
+          </section>
+        )}
+
+        {/* SECCIÓN 4: ORGANIZACIÓN (Tabla) */}
+        {activeSection === "organizacion" && (
+          <section className="fade-in">
+            <h2>Comparativa de Hardware</h2>
+            <p>Tabla de requisitos recomendados para juegos AAA en 2025:</p>
+
+            <div style={{ overflowX: 'auto' }}>
+              <table border="1" style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px', textAlign: 'left' }}>
+                <thead>
+                  <tr style={{ backgroundColor: 'rgba(0,0,0,0.2)' }}>
+                    <th style={{ padding: '10px' }}>Componente</th>
+                    <th style={{ padding: '10px' }}>Mínimo</th>
+                    <th style={{ padding: '10px' }}>Recomendado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style={{ padding: '10px' }}>Procesador</td>
+                    <td style={{ padding: '10px' }}>Intel i5 10400</td>
+                    <td style={{ padding: '10px' }}>Intel i7 13700K</td>
+                  </tr>
+                  <tr>
+                    <td style={{ padding: '10px' }}>Gráfica</td>
+                    <td style={{ padding: '10px' }}>GTX 1660 Super</td>
+                    <td style={{ padding: '10px' }}>RTX 4070</td>
+                  </tr>
+                  <tr>
+                    <td style={{ padding: '10px' }}>Almacenamiento</td>
+                    <td style={{ padding: '10px' }}>50GB SSD</td>
+                    <td style={{ padding: '10px' }}>1TB NVMe</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+          </section>
+        )}
+
+        {/* SECCIÓN 5: GENÉRICOS (Información de Videojuegos) */}
+        {activeSection === "genericos" && (
+          <section className="fade-in">
+            <h2>Curiosidades del Gaming</h2>
             
-            <div 
-              className="rich-editor" 
-              contentEditable="true"
-              style={{
-                minHeight: '120px',
-                border: '2px solid #ccc',
-                padding: '10px',
-                marginTop: '10px',
-                background: 'white',
-                color: 'black' // Forzamos texto negro en el editor
-              }}
-            ></div>
+            <h3>Frases Icónicas (`blockquote`)</h3>
+            <blockquote style={{ borderLeft: '4px solid #e60012', paddingLeft: '10px', margin: '20px 0', fontStyle: 'italic' }}>
+              "It's dangerous to go alone! Take this." 
+              <br />— The Legend of Zelda (NES, 1986)
+            </blockquote>
 
-            <button type="submit" style={{ marginTop: '1rem' }}>Registrar</button>
-          </form>
-        </section>
+            <h3>Secretos Ocultos (`details`)</h3>
+            <details style={{ background: 'rgba(255,255,255,0.1)', padding: '10px', borderRadius: '5px', marginBottom: '10px' }}>
+              <summary style={{ cursor: 'pointer', fontWeight: 'bold' }}>¿Sabías que Mario golpea los bloques con...?</summary>
+              <p style={{ marginTop: '10px' }}>
+                ¡Con el puño! Mucha gente cree que usa la cabeza, pero si miras el sprite original detenidamente, verás que levanta el puño justo antes de impactar.
+              </p>
+            </details>
 
-        <section id="incrustado">
-          <h2>Contenido incrustado (Canvas)</h2>
-          <canvas ref={canvasRef} id="canvas-gamehub" width="400" height="200"></canvas>
-        </section>
+            <h3>Desarrolladora Legendaria (`address`)</h3>
+            <address style={{ border: '1px dashed gray', padding: '10px', marginTop: '20px' }}>
+              <strong>Nintendo Co., Ltd.</strong><br />
+              11-1 Hokotate-cho, Kamitoba,<br />
+              Minami-ku, Kyoto 601-8501, Japan<br />
+              Creadores de: Mario, Zelda, Metroid.
+            </address>
+
+            <h3>El Código Konami (`pre`)</h3>
+            <p>El truco más famoso de la historia:</p>
+            <pre style={{ background: '#222', padding: '10px', borderRadius: '5px', overflowX: 'auto', fontFamily: 'monospace' }}>
+Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
+            </pre>
+          </section>
+        )}
+
+        {/* SECCIÓN 6: FORMULARIOS */}
+        {activeSection === "formularios" && (
+          <section className="fade-in">
+            <h2>Registro Gamer</h2>
+            <form onSubmit={handleSubmit}>
+              <label>Gamertag: <input type="text" name="usuario" value={formValues.usuario} onChange={handleInputChange} /></label>
+              <label>Email: <input type="email" name="correo" value={formValues.correo} onChange={handleInputChange} /></label>
+              <label>Password: <input type="password" name="password" value={formValues.password} onChange={handleInputChange} /></label>
+              
+              <div className="rich-tools" style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                <button type="button" onClick={() => execCmd('bold')}><b>B</b></button>
+                <button type="button" onClick={() => execCmd('italic')}><i>I</i></button>
+                <button type="button" onClick={() => execCmd('underline')}><u>U</u></button>
+              </div>
+              <div className="rich-editor" contentEditable="true" style={{ minHeight: '80px', border: '1px solid #ccc', background: 'white', color: 'black', padding: '5px', marginTop: '5px' }}></div>
+              
+              <button type="submit" style={{ marginTop: '10px' }}>Unirse</button>
+            </form>
+          </section>
+        )}
+
+        {/* SECCIÓN 7: CANVAS */}
+        {activeSection === "incrustado" && (
+          <section className="fade-in">
+            <h2>Canvas (Dibujo JS)</h2>
+            <canvas ref={canvasRef} width="400" height="200" style={{ border: '2px solid white', marginTop: '10px' }}></canvas>
+          </section>
+        )}
       </main>
 
-      {/* FOOTER */}
       <footer>
-        <p>GameHub — Proyecto React | <a href="mailto:soportegamehub@gmail.com">Contacto</a></p>
+        <p>GameHub 2025 — Desarrollado en React</p>
       </footer>
     </div>
   );
