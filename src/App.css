@@ -24,11 +24,17 @@
 }
 
 /* =========================================
-   2. ESTILOS GENERALES
+   2. ESTILOS GENERALES Y RESET (EL PARCHE MÓVIL)
    ========================================= */
-body {
+*, *::before, *::after {
+  box-sizing: border-box; /* Fundamental para que nada se salga de medidas */
+}
+
+body, html {
   margin: 0;
   padding: 0;
+  max-width: 100vw;      /* Nunca más ancho que la pantalla */
+  overflow-x: hidden;    /* Corta cualquier cosa que intente salirse de lado */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: var(--bg-dark);
   color: var(--text-color);
@@ -39,6 +45,7 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  width: 100%; /* Asegura que ocupe el ancho disponible */
 }
 
 /* =========================================
@@ -54,7 +61,6 @@ header {
 h1 {
   font-size: 2.5rem;
   margin-bottom: 10px;
-  /* Efecto neón en el título */
   text-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
 }
 
@@ -74,7 +80,7 @@ h1 {
 
 .btn-menu:hover {
   background: var(--primary-color);
-  color: var(--bg-dark); /* Texto cambia al color del fondo para contraste */
+  color: var(--bg-dark);
 }
 
 /* Lista de Enlaces (Menú) */
@@ -91,9 +97,8 @@ h1 {
   border: 1px solid var(--border-color);
 }
 
-/* Clase para abrir el menú */
 .nav-links.open {
-  display: flex;
+  display: flex; /* Se abre al dar click */
 }
 
 .nav-links li button {
@@ -129,8 +134,8 @@ h1 {
   }
 
   .nav-links {
-    display: flex;       /* Siempre visible */
-    flex-direction: row; /* Horizontal */
+    display: flex;       
+    flex-direction: row; 
     background-color: transparent;
     padding: 0;
     gap: 15px;
@@ -144,7 +149,6 @@ h1 {
     padding: 8px 12px;
   }
   
-  /* Efecto hover tipo botón en PC */
   .nav-links li button:hover {
     background-color: rgba(0, 212, 255, 0.1);
     border-radius: 4px;
@@ -152,10 +156,18 @@ h1 {
 }
 
 /* =========================================
-   5. COMPONENTES (Tablas, Forms, Animaciones)
+   5. COMPONENTES (Canvas, Tablas, Forms)
    ========================================= */
 
-/* Animación suave de entrada */
+/* --- CANVAS FIX (LA SOLUCIÓN A TU PROBLEMA) --- */
+canvas {
+  max-width: 100%; /* Si la pantalla es pequeña, el canvas se encoge */
+  height: auto;    /* Mantiene la proporción */
+  display: block;
+  margin: 10px auto; /* Centrado */
+}
+
+/* Animación suave */
 .fade-in {
   animation: fadeIn 0.4s ease-out;
 }
@@ -166,12 +178,19 @@ h1 {
 }
 
 /* Tablas Responsivas */
+div[style*="overflowX"] {
+  /* Asegura que el contenedor de la tabla permita scroll si es necesario */
+  width: 100%;
+  overflow-x: auto;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 15px;
   background-color: var(--bg-card);
   color: var(--text-color);
+  min-width: 300px; /* Evita que se aplaste demasiado */
 }
 
 th, td {
@@ -181,39 +200,36 @@ th, td {
 }
 
 th {
-  background-color: rgba(0, 0, 0, 0.2); /* Sutilmente más oscuro */
+  background-color: rgba(0, 0, 0, 0.2);
   color: var(--primary-color);
 }
 
 /* Formularios */
 form {
   background-color: var(--bg-card);
-  padding: 25px;
+  padding: 20px;
   border-radius: var(--border-radius);
   border: 1px solid var(--border-color);
-  max-width: 500px;
+  max-width: 100%; /* No más ancho que la pantalla */
+  width: 500px;    /* Ancho ideal */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-label {
-  font-weight: bold;
-  font-size: 0.9rem;
-}
-
 input {
   padding: 12px;
   border-radius: 6px;
   border: 1px solid var(--border-color);
-  background-color: var(--bg-dark); /* Input oscuro sobre tarjeta */
+  background-color: var(--bg-dark);
   color: var(--text-color);
+  width: 100%; /* Que ocupe todo el espacio del form */
 }
 
 button[type="submit"], .glow-button {
   background-color: var(--primary-color);
-  color: #000; /* Texto negro para contraste en el neón */
+  color: #000;
   font-weight: bold;
   border: none;
   padding: 10px 20px;
