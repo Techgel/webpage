@@ -15,7 +15,7 @@ function App() {
     password: ""
   });
 
-  // 4. MENÚ RESPONSIVO
+  // 4. MENÚ RESPONSIVO (Estado de apertura)
   const [menuOpen, setMenuOpen] = useState(false);
 
   // 5. CANVAS
@@ -56,18 +56,17 @@ function App() {
   };
   const execCmd = (cmd) => document.execCommand(cmd, false, null);
 
-  // Estilos de botones del menú
-  const navButtonStyle = {
-    background: 'transparent', border: 'none', color: 'inherit',
-    cursor: 'pointer', fontSize: '1rem', padding: '10px',
-    fontWeight: 'bold', textDecoration: activeSection ? 'none' : 'underline'
+  // Función auxiliar para navegar y cerrar el menú móvil al mismo tiempo
+  const navigateTo = (section) => {
+    setActiveSection(section);
+    setMenuOpen(false); // Cierra el menú al hacer clic
   };
 
   return (
     <div className="App">
       <header>
         <h1>GameHub</h1>
-        {/* TEXTO DE ENCABEZADO ACTUALIZADO */}
+        {/* TEXTO DE ENCABEZADO */}
         <p style={{ maxWidth: '800px', margin: '0 auto 20px auto', lineHeight: '1.5' }}>
           GameHub nació como un proyecto académico para la materia de <strong>Desarrollo Web</strong> a lo largo de un ciclo escolar. 
           Sin embargo, el objetivo va más allá de cumplir con una entrega: la idea es construir una <strong>wiki funcional</strong> enfocada en videojuegos.
@@ -77,18 +76,25 @@ function App() {
           {theme === 'light' ? "🌙 Modo Oscuro" : "☀️ Modo Claro"}
         </button>
 
-        <nav>
-          <button className="btn-menu" onClick={() => setMenuOpen(!menuOpen)} style={{ display: 'block', marginBottom: '10px', fontSize: '1.5rem', background: 'transparent', border: 'none', color: 'var(--text-color)', cursor: 'pointer' }}>
+        {/* NAVEGACIÓN RESPONSIVA MODIFICADA */}
+        <nav className="navbar">
+          {/* Botón Hamburguesa (Solo visible en Móvil gracias al CSS) */}
+          <button 
+            className="btn-menu" 
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
             ☰ Menú
           </button>
-          <ul className={menuOpen ? "open" : ""} style={menuOpen ? { display: 'block' } : {}}>
-            <li><button style={navButtonStyle} onClick={() => setActiveSection("parrafos")}>Inicio</button></li>
-            <li><button style={navButtonStyle} onClick={() => setActiveSection("encabezados")}>Encabezados</button></li>
-            <li><button style={navButtonStyle} onClick={() => setActiveSection("listas")}>Listas</button></li>
-            <li><button style={navButtonStyle} onClick={() => setActiveSection("organizacion")}>Organización</button></li>
-            <li><button style={navButtonStyle} onClick={() => setActiveSection("genericos")}>Genéricos</button></li>
-            <li><button style={navButtonStyle} onClick={() => setActiveSection("formularios")}>Formularios</button></li>
-            <li><button style={navButtonStyle} onClick={() => setActiveSection("incrustado")}>Canvas</button></li>
+
+          {/* Lista de Enlaces (Se oculta/muestra con CSS y la clase 'open') */}
+          <ul className={menuOpen ? "nav-links open" : "nav-links"}>
+            <li><button onClick={() => navigateTo("parrafos")}>Inicio</button></li>
+            <li><button onClick={() => navigateTo("encabezados")}>Encabezados</button></li>
+            <li><button onClick={() => navigateTo("listas")}>Listas</button></li>
+            <li><button onClick={() => navigateTo("organizacion")}>Organización</button></li>
+            <li><button onClick={() => navigateTo("genericos")}>Genéricos</button></li>
+            <li><button onClick={() => navigateTo("formularios")}>Formularios</button></li>
+            <li><button onClick={() => navigateTo("incrustado")}>Canvas</button></li>
           </ul>
         </nav>
       </header>
@@ -117,7 +123,7 @@ function App() {
           </section>
         )}
 
-        {/* SECCIÓN 3: LISTAS (Sin títulos, solo las listas) */}
+        {/* SECCIÓN 3: LISTAS */}
         {activeSection === "listas" && (
           <section className="fade-in">
             <h2>Inventario Gamer</h2>
@@ -202,7 +208,7 @@ function App() {
           </section>
         )}
 
-        {/* SECCIÓN 5: GENÉRICOS (Información de Videojuegos) */}
+        {/* SECCIÓN 5: GENÉRICOS */}
         {activeSection === "genericos" && (
           <section className="fade-in">
             <h2>Curiosidades del Gaming</h2>

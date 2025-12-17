@@ -1,228 +1,213 @@
-/* ============================
-   VARIABLES BASE (Modo Oscuro por defecto)
-============================ */
+/* =========================================
+   1. VARIABLES Y ESTILOS BASE
+   ========================================= */
 :root {
-    --bg-color: #0f172a;
-    --text-color: #e5e7eb;
-    --card-bg: #1e293b;
-    --border-color: #334155;
-    --accent-color: #38bdf8;
+  --primary-color: #00d4ff;       /* Azul neón */
+  --secondary-color: #e60012;     /* Rojo Nintendo */
+  --bg-dark: #121212;             /* Fondo muy oscuro */
+  --bg-card: #1e1e1e;             /* Fondo de tarjetas */
+  --text-color: #ffffff;
+  --text-muted: #aaaaaa;
+  --border-radius: 8px;
 }
 
-/* ============================
-   MODO CLARO AZUL CIELO
-============================ */
-.theme-light {
-    --bg-color: #dbeeff;      /* AZUL CIELO REAL */
-    --text-color: #0b2545;
-    --card-bg: #ffffff;
-    --border-color: #8ecbff;
-    --accent-color: #4fa3ff;
-}
-
-/* ============================
-   RESET BÁSICO
-============================ */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-/* ============================
-   BODY
-============================ */
 body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    line-height: 1.6;
-    transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
 }
 
-/* ============================
-   HEADER
-============================ */
+.App {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* =========================================
+   2. HEADER Y NAVEGACIÓN (RESPONSIVO)
+   ========================================= */
 header {
-    padding: 2rem;
-    border-bottom: 2px solid var(--border-color);
+  text-align: center;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 20px;
 }
 
-header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
 }
 
-header p {
-    max-width: 700px;
-    opacity: 0.9;
+/* Botón Hamburguesa (Visible solo en Móvil) */
+.btn-menu {
+  display: block;
+  margin: 15px auto;
+  background: transparent;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  padding: 8px 15px;
+  font-size: 1.2rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-/* ============================
-   BOTÓN MODO CLARO / OSCURO
-============================ */
-.glow-button {
-    background-color: var(--card-bg);
-    color: var(--text-color);
-    border: 2px solid var(--accent-color);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+.btn-menu:hover {
+  background: var(--primary-color);
+  color: #000;
 }
 
-.glow-button:hover {
-    box-shadow: 0 0 15px var(--accent-color);
-    transform: translateY(-2px);
+/* Contenedor de enlaces (Oculto en móvil por defecto) */
+.nav-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: none; /* Se oculta */
+  flex-direction: column;
+  gap: 10px;
+  background-color: var(--bg-card);
+  padding: 15px;
+  border-radius: var(--border-radius);
 }
 
-/* ============================
-   NAV
-============================ */
-nav {
-    margin-top: 1.5rem;
+/* Clase para mostrar el menú cuando se abre */
+.nav-links.open {
+  display: flex;
 }
 
-nav ul {
+.nav-links li button {
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #333;
+  transition: color 0.3s;
+}
+
+.nav-links li button:hover {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+/* =========================================
+   3. ESTILOS PARA ESCRITORIO (PC)
+   ========================================= */
+@media (min-width: 768px) {
+  .btn-menu {
+    display: none; /* Ocultamos el botón de hamburguesa */
+  }
+
+  .navbar {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    list-style: none;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .nav-links {
+    display: flex; /* Siempre visible en PC */
+    flex-direction: row; /* Horizontal */
+    background-color: transparent;
+    padding: 0;
+    gap: 20px;
+  }
+
+  .nav-links li button {
+    width: auto;
+    border-bottom: none;
+    font-size: 1.1rem;
+  }
 }
 
-nav a {
-    text-decoration: none;
-    color: var(--text-color);
-    padding: 0.4rem 0.7rem;
-    border-radius: 8px;
-    transition: background-color 0.2s ease;
+/* =========================================
+   4. COMPONENTES INTERNOS (Tablas, Listas, Forms)
+   ========================================= */
+
+/* Animación de entrada */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
 }
 
-nav a:hover {
-    background-color: var(--accent-color);
-    color: #ffffff;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* ============================
-   MAIN
-============================ */
-main {
-    padding: 2rem;
-    max-width: 1100px;
-    margin: auto;
-}
-
-/* ============================
-   SECCIONES
-============================ */
-section {
-    margin-bottom: 3rem;
-}
-
-section h2 {
-    margin-bottom: 0.8rem;
-    border-bottom: 4px solid var(--accent-color);
-    display: inline-block;
-    padding-bottom: 0.2rem;
-}
-
-/* ============================
-   ARTÍCULO / ASIDE
-============================ */
-article,
-aside {
-    background-color: var(--card-bg);
-    padding: 1rem;
-    border-radius: 12px;
-    margin-top: 1rem;
-    border: 1px solid var(--border-color);
-}
-
-/* ============================
-   LISTAS
-============================ */
-ul, ol {
-    margin-left: 1.5rem;
-    margin-top: 0.5rem;
-}
-
-/* ============================
-   TABLAS
-============================ */
+/* Tablas (Organización) */
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-    background-color: var(--card-bg);
-}
-
-caption {
-    margin-bottom: 0.5rem;
-    font-weight: bold;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  background-color: var(--bg-card);
 }
 
 th, td {
-    padding: 0.6rem;
-    border: 1px solid var(--border-color);
+  padding: 12px;
+  border: 1px solid #444;
 }
 
-/* ============================
-   FORMULARIOS
-============================ */
+th {
+  background-color: rgba(0, 212, 255, 0.1);
+  color: var(--primary-color);
+}
+
+/* Formularios */
 form {
-    background-color: var(--card-bg);
-    padding: 1.5rem;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+  padding: 20px;
+  border-radius: var(--border-radius);
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-label {
-    display: block;
-    margin-top: 0.8rem;
+input {
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #555;
+  background-color: #333;
+  color: white;
 }
 
-input,
-select,
-button {
-    margin-top: 0.3rem;
-    padding: 0.4rem;
-    border-radius: 6px;
-    border: 1px solid var(--border-color);
+button[type="submit"] {
+  background-color: var(--primary-color);
+  color: #000;
+  font-weight: bold;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
-button {
-    cursor: pointer;
+/* =========================================
+   5. TEMA CLARO (Light Mode)
+   ========================================= */
+.theme-light {
+  --bg-dark: #f4f4f4;
+  --bg-card: #ffffff;
+  --text-color: #333333;
+  --text-muted: #666666;
 }
 
-/* ============================
-   CONTADOR DE CARACTERES
-============================ */
-.contador {
-    opacity: 0.7;
+.theme-light input {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color: #333;
 }
 
-/* ============================
-   RICH TEXT EDITOR
-============================ */
-.rich-tools button {
-    padding: 0.4rem 0.6rem;
-    border-radius: 6px;
+.theme-light table {
+  border-color: #ddd;
 }
 
-/* ============================
-   CANVAS
-============================ */
-canvas {
-    border: 2px solid var(--border-color);
-    border-radius: 12px;
-    margin-top: 1rem;
-}
-
-/* ============================
-   FOOTER
-============================ */
-footer {
-    padding: 1.5rem;
-    text-align: center;
-    border-top: 2px solid var(--border-color);
-    margin-top: 3rem;
+.theme-light th, .theme-light td {
+  border: 1px solid #ddd;
 }
